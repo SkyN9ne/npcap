@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -619,7 +616,7 @@ static PCHAR NpcapGetAdapterID(_In_ LPCSTR AdapterName, _Out_opt_ PULONG pNpfOpe
 	if (0 == _strnicmp(AdapterName, WINPCAP_COMPAT_DEVICE_PREFIX, sizeof(WINPCAP_COMPAT_DEVICE_PREFIX) - 1)) {
 		src = AdapterName + sizeof(WINPCAP_COMPAT_DEVICE_PREFIX) - 1;
 	}
-	else if (0 == _strnicmp(AdapterName, NPF_DRIVER_COMPLETE_DEVICE_PREFIX, sizeof(NPF_DRIVER_COMPLETE_DEVICE_PREFIX - 1))) {
+	else if (0 == _strnicmp(AdapterName, NPF_DRIVER_COMPLETE_DEVICE_PREFIX, sizeof(NPF_DRIVER_COMPLETE_DEVICE_PREFIX) - 1)) {
 		src = AdapterName + sizeof(NPF_DRIVER_COMPLETE_DEVICE_PREFIX) - 1;
 	}
 	else {
@@ -1413,7 +1410,7 @@ LPADAPTER PacketOpenAdapterNPF(_In_ PCCH AdapterID, ULONG NpfOpenFlags)
 		}
 
 		if (!PacketSetMaxLookaheadsize(lpAdapter)) {
-			error=GetLastError();
+			// error=GetLastError();
 			TRACE_PRINT("PacketOpenAdapterNPF: Unable to set lookahead");
 			// We do not consider this a failure. Would like to avoid it for loopback, though.
 			// break;
@@ -3255,6 +3252,7 @@ BOOLEAN PacketGetNetInfoEx(PCCH AdapterName, npf_if_addr* buffer, PLONG NEntries
 	{
 		ADDRINFOA hints = {0};
 		PADDRINFOA pAI = NULL;
+		npf_if_addr* pIfAddr = NULL;
 		hints.ai_flags = AI_NUMERICHOST;
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
@@ -3263,22 +3261,24 @@ BOOLEAN PacketGetNetInfoEx(PCCH AdapterName, npf_if_addr* buffer, PLONG NEntries
 		switch (*NEntries) {
 			case 2:
 				// buffer[1] = ipv6;
+				pIfAddr = &buffer[1];
 				hints.ai_family = AF_INET6;
 				if (0 != getaddrinfo("::1", NULL, &hints, &pAI))
 					break;
-				memcpy(&buffer[1].IPAddress, pAI->ai_addr, sizeof(struct sockaddr_in6));
+				memcpy(&pIfAddr->IPAddress, pAI->ai_addr, sizeof(struct sockaddr_in6));
 				if (0 != getaddrinfo("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", NULL, &hints, &pAI))
 					break;
-				memcpy(&buffer[1].SubnetMask, pAI->ai_addr, sizeof(struct sockaddr_in6));
+				memcpy(&pIfAddr->SubnetMask, pAI->ai_addr, sizeof(struct sockaddr_in6));
 			case 1:
 				// buffer[0] = ipv4;
+				pIfAddr = &buffer[0];
 				hints.ai_family = AF_INET;
 				if (0 != getaddrinfo("127.0.0.1", NULL, &hints, &pAI))
 					break;
-				memcpy(&buffer[0].IPAddress, pAI->ai_addr, sizeof(struct sockaddr_in));
+				memcpy(&pIfAddr->IPAddress, pAI->ai_addr, sizeof(struct sockaddr_in));
 				if (0 != getaddrinfo("255.0.0.0", NULL, &hints, &pAI))
 					break;
-				memcpy(&buffer[0].SubnetMask, pAI->ai_addr, sizeof(struct sockaddr_in));
+				memcpy(&pIfAddr->SubnetMask, pAI->ai_addr, sizeof(struct sockaddr_in));
 			default:
 				Res = TRUE;
 				break;
@@ -3674,6 +3674,7 @@ int PacketSetMonitorMode(PCCH AdapterName, int mode)
 			rval = 1;
 			// Update the adapter's monitor mode in the global map.
 			g_nbAdapterMonitorModes[AdapterID] = mode;
+			break;
 		case NDIS_STATUS_INVALID_DATA:
 		case NDIS_STATUS_INVALID_OID:
 			// Monitor mode is not supported.

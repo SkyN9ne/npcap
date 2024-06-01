@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -147,7 +144,8 @@ NPF_CloneBufferToMdl(
 	_In_ ULONG uDataLen
        )
 {
-	PVOID npBuff = ExAllocatePoolWithTag(NPF_NONPAGED, uDataLen, NPF_BUFFERED_WRITE_TAG);
+	PVOID npBuff = NPF_AllocateZeroNonpaged(uDataLen, NPF_BUFFERED_WRITE_TAG);
+	ULONG uMdlLen;
 	if (npBuff == NULL)
 	{
 		INFO_DBG("NPF_BufferedWrite: unable to allocate non-paged buffer.\n");
@@ -157,7 +155,13 @@ NPF_CloneBufferToMdl(
 	RtlCopyMemory(npBuff, pBuf, uDataLen);
 
 	// Allocate an MDL to map the packet data
-	PMDL TmpMdl = NdisAllocateMdl(pFiltMod->AdapterHandle, npBuff, uDataLen);
+	if (pFiltMod->SplitMdls && uDataLen > ETHER_HDR_LEN) {
+		uMdlLen = ETHER_HDR_LEN;
+	}
+	else {
+		uMdlLen = uDataLen;
+	}
+	PMDL TmpMdl = NdisAllocateMdl(pFiltMod->AdapterHandle, npBuff, uMdlLen);
 
 	if (TmpMdl == NULL)
 	{
@@ -168,6 +172,22 @@ NPF_CloneBufferToMdl(
 		return NULL;
 	}
 
+	if (uMdlLen < uDataLen) {
+		TmpMdl->Next = NdisAllocateMdl(pFiltMod->AdapterHandle, (PUCHAR)npBuff + uMdlLen, uDataLen - uMdlLen);
+		if (TmpMdl == NULL)
+		{
+			// Unable to map the memory: packet lost
+			INFO_DBG("NPF_BufferedWrite: unable to allocate split MDL.\n");
+			ExFreePoolWithTag(npBuff, NPF_BUFFERED_WRITE_TAG);
+			NdisFreeMdl(TmpMdl);
+			return NULL;
+		}
+		// The MDL is aliased because it is accessed via TmpMdl->Next.
+		// As long as TmpMdl doesn't leak, this is not a leak.
+		NPF_AnalysisAssumeAliased(TmpMdl->Next);
+
+	}
+
 	// WORKAROUND: We are calling NPF_AnalysisAssumeAliased here because the buffer address
 	// is stored in the MDL and we retrieve it (via NdisQueryMdl) in NPF_FreePackets called from NPF_ReturnEx.
 	// Therefore, it is not leaking after this point.
@@ -175,14 +195,23 @@ NPF_CloneBufferToMdl(
 	return TmpMdl;
 }
 
+// We may have a chain of MDLs, but they all refer to the same buffer.
 VOID
-NPF_FreeMdlAndBuffer(_In_ __drv_freesMem(mem) PMDL pMdl)
+NPF_FreeMdlAndBuffer(_In_ __drv_freesMem(mem) PMDL pMdl, _In_ BOOLEAN FreeBuf)
 {
-	PVOID npBuff = MmGetSystemAddressForMdlSafe(pMdl, HighPagePriority|MdlMappingNoExecute);
-	if (npBuff != NULL) {
-		ExFreePoolWithTag(npBuff, NPF_BUFFERED_WRITE_TAG);
+	PMDL pNext = NULL;
+	if (FreeBuf)
+	{
+		PVOID npBuff = MmGetSystemAddressForMdlSafe(pMdl, HighPagePriority|MdlMappingNoExecute);
+		if (npBuff != NULL) {
+			ExFreePoolWithTag(npBuff, NPF_BUFFERED_WRITE_TAG);
+		}
 	}
-	NdisFreeMdl(pMdl); //Free MDL
+	while (pMdl != NULL) {
+		pNext = pMdl->Next;
+		NdisFreeMdl(pMdl); //Free MDL
+		pMdl = pNext;
+	}
 }
 
 NTSTATUS
@@ -214,6 +243,7 @@ NPF_AllocateNBL(
 			// WORKAROUND: FwpsAllocateNetBufferAndNetBufferList also does not have annotations for
 			// allocating the NBL. This fake function will suppress the warning about it.
 			*ppNBL = NPF_AnalysisAssumeAllocated(ppNBL);
+			(*ppNBL)->ChildRefCount = 0;
 		}
 		else
 		{
@@ -231,54 +261,54 @@ NPF_AllocateNBL(
 			pMdl,
 			0,
 			uDataLen);
-		Status = *ppNBL ? STATUS_SUCCESS : STATUS_INSUFFICIENT_RESOURCES;
+		if (*ppNBL) {
+			Status = STATUS_SUCCESS;
+			(*ppNBL)->ChildRefCount = 0;
+		}
+		else {
+			Status = STATUS_INSUFFICIENT_RESOURCES;
+		}
 	}
 	return Status;
 }
 //-------------------------------------------------------------------
 
-_Ret_range_(-1, 1)
-static int NPF_GetIPVersion(
+static USHORT NPF_GetIPVersion(
 		_In_ PNPCAP_FILTER_MODULE pFiltMod,
 		_In_reads_bytes_(buflen) PVOID pBuf,
 		_In_ ULONG buflen)
 {
-	int ret = NPF_INJECT_OTHER;
 	UINT uCmp = 0;
 
-	if (pFiltMod->RawIP && NT_VERIFY(buflen > 1))
+	if (pFiltMod->EtherHeader)
 	{
-		uCmp = *(PUCHAR)pBuf & 0xf0;
+		uCmp = RtlUshortByteSwap(((PETHER_HEADER)pBuf)->ether_type);
 	}
-	else if (pFiltMod->Loopback)
-	{
-		if (g_pDriverExtension->bDltNullMode)
+	else {
+		if (pFiltMod->RawIP && NT_VERIFY(buflen > 1))
+		{
+			uCmp = *(PUCHAR)pBuf & 0xf0;
+		}
+		else if (pFiltMod->Loopback && g_pDriverExtension->bDltNullMode)
 		{
 			uCmp = ((PDLT_NULL_HEADER)pBuf)->null_type;
 		}
-		else
+
+		switch(uCmp)
 		{
-			uCmp = RtlUshortByteSwap(((PETHER_HEADER)pBuf)->ether_type);
+			case 0x40:
+			case DLTNULLTYPE_IP:
+				uCmp = ETHERTYPE_IP;
+				break;
+			case 0x60:
+			case DLTNULLTYPE_IPV6:
+				uCmp = ETHERTYPE_IPV6;
+				break;
+			default:
+				break;
 		}
 	}
-
-	switch(uCmp)
-	{
-		case 0x40:
-		case DLTNULLTYPE_IP:
-		case ETHERTYPE_IP:
-			ret = NPF_INJECT_IPV4;
-			break;
-		case 0x60:
-		case DLTNULLTYPE_IPV6:
-		case ETHERTYPE_IPV6:
-			ret = NPF_INJECT_IPV6;
-			break;
-		default:
-			ret = NPF_INJECT_OTHER;
-			break;
-	}
-	return ret;
+	return (USHORT)uCmp;
 }
 
 _Use_decl_annotations_
@@ -298,7 +328,9 @@ NPF_Write(
 	NTSTATUS Status = STATUS_SUCCESS;
 	PMDL TmpMdl = NULL;
 	BOOLEAN IrpWasPended = FALSE;
-	int npf_inject_type = NPF_INJECT_OTHER;
+	BOOLEAN bFreeBuf = FALSE;
+	BOOLEAN bFreeMdl = FALSE;
+	USHORT EthType = 0;
 
 	UNREFERENCED_PARAMETER(DeviceObject);
 	TRACE_ENTER();
@@ -363,7 +395,7 @@ NPF_Write(
 		SendFlags |= NDIS_SEND_FLAGS_CHECK_FOR_LOOPBACK;
 	}
 
-	npf_inject_type = NPF_GetIPVersion(Open->pFiltMod, pBuf, buflen);
+	EthType = NPF_GetIPVersion(Open->pFiltMod, pBuf, buflen);
 	numSentPackets = 0;
 
 	while (numSentPackets < NumSends)
@@ -371,7 +403,37 @@ NPF_Write(
 		if (NumSends - numSentPackets == 1) 
 		{
 			// Last packet; use the IRP's buffer and pend it.
-			TmpMdl = Irp->MdlAddress;
+			if (Open->pFiltMod->SplitMdls) {
+				// As a workaround for a bug in bthpan.sys, we need to define
+				// separate MDLs for the Eth header and payload. See #708
+				ULONG uMdlLen = min(ETHER_HDR_LEN, buflen);
+				PVOID pVA = MmGetMdlVirtualAddress(Irp->MdlAddress);
+				TmpMdl = NdisAllocateMdl(Open->pFiltMod->AdapterHandle, pBuf, uMdlLen);
+				if (TmpMdl == NULL)
+				{
+					Status = STATUS_INSUFFICIENT_RESOURCES;
+					break;
+				}
+				IoBuildPartialMdl(Irp->MdlAddress, TmpMdl, pVA, uMdlLen);
+				if (uMdlLen < buflen) {
+					TmpMdl->Next = NdisAllocateMdl(Open->pFiltMod->AdapterHandle, pBuf, uMdlLen);
+					if (TmpMdl->Next == NULL)
+					{
+						NdisFreeMdl(TmpMdl);
+						TmpMdl = NULL;
+						Status = STATUS_INSUFFICIENT_RESOURCES;
+						break;
+					}
+					// The MDL is aliased because it is accessed via TmpMdl->Next.
+					// As long as TmpMdl doesn't leak, this is not a leak.
+					NPF_AnalysisAssumeAliased(TmpMdl->Next);
+					IoBuildPartialMdl(Irp->MdlAddress, TmpMdl->Next, (PUCHAR)pVA + uMdlLen, buflen - uMdlLen);
+				}
+				bFreeMdl = TRUE;
+			}
+			else {
+				TmpMdl = Irp->MdlAddress;
+			}
 			IoMarkIrpPending(Irp);
 			IrpWasPended = TRUE;
 		}
@@ -384,6 +446,8 @@ NPF_Write(
 				Status = STATUS_INSUFFICIENT_RESOURCES;
 				break;
 			}
+			bFreeBuf = TRUE;
+			bFreeMdl = TRUE;
 		}
 
 		Status = NPF_AllocateNBL(Open->pFiltMod,
@@ -400,29 +464,28 @@ NPF_Write(
 		TmpMdl = NULL;
 
 		// Mark packet as necessary
-		if (npf_inject_type == NPF_INJECT_IPV4)
+		if (EthType == ETHERTYPE_IP)
 		{
 			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_IPV4);
-			NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(ETHERTYPE_IP);
 		}
-		else if (npf_inject_type == NPF_INJECT_IPV6)
+		else if (EthType == ETHERTYPE_IPV6)
 		{
 			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_IPV6);
-			NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(ETHERTYPE_IPV6);
 		}
+		NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(EthType);
 
 		RESERVED(pNetBufferList)->pState = NULL;
+		RESERVED(pNetBufferList)->FreeBufAfterWrite = bFreeBuf;
+		RESERVED(pNetBufferList)->FreeMdlAfterWrite = bFreeMdl;
 		if (IrpWasPended)
 		{
 			// This is the only NBL that uses the IRP's buffer. Let SendComplete know it should complete the IRP, too.
 			RESERVED(pNetBufferList)->pIrp = Irp;
-			RESERVED(pNetBufferList)->FreeBufAfterWrite = FALSE;
 		}
 		else
 		{
 			// This NBL uses our own buffer copy. SendComplete should free it, but not complete the IRP until we're done sending.
 			RESERVED(pNetBufferList)->pIrp = NULL;
-			RESERVED(pNetBufferList)->FreeBufAfterWrite = TRUE;
 		}
 
 		//receive the packets before sending them
@@ -432,47 +495,6 @@ NPF_Write(
 
 		pNetBufferList->SourceHandle = Open->pFiltMod->AdapterHandle;
 
-		// Recognize IEEE802.1Q tagged packet, as no many adapters support VLAN tag packet sending, no much use for end users,
-		// and this code examines the data which lacks efficiency, so I left it commented, the sending part is also unfinished.
-		// This code refers to Win10Pcap at https://github.com/SoftEtherVPN/Win10Pcap.
-// 			if (Open->pFiltMod->Loopback == FALSE)
-// 			{
-// 				PUCHAR pHeaderBuffer;
-// 				UINT iFres;
-//
-// 				BOOLEAN withVlanTag = FALSE;
-// 				UINT VlanID = 0;
-// 				UINT VlanUserPriority = 0;
-// 				UINT VlanCanFormatID = 0;
-//
-// 				NdisQueryMdl(
-// 					Irp->MdlAddress,
-// 					&pHeaderBuffer,
-// 					&iFres,
-// 					NormalPagePriority);
-//
-// 				// Determine if the packet is IEEE802.1Q tagged packet.
-// 				if (iFres >= 18)
-// 				{
-// 					if (pHeaderBuffer[12] == 0x81 && pHeaderBuffer[13] == 0x00)
-// 					{
-// 						USHORT pTmpVlanTag = 0;
-//
-// 						((UCHAR *)(&pTmpVlanTag))[0] = pHeaderBuffer[15];
-// 						((UCHAR *)(&pTmpVlanTag))[1] = pHeaderBuffer[14];
-//
-// 						VlanID = pTmpVlanTag & 0x0FFF;
-// 						VlanUserPriority = (pTmpVlanTag >> 13) & 0x07;
-// 						VlanCanFormatID = (pTmpVlanTag >> 12) & 0x01;
-//
-// 						if (VlanID != 0)
-// 						{
-// 							withVlanTag = TRUE;
-// 						}
-// 					}
-// 				}
-// 			}
-
 		//
 		//  Call the MAC
 		//
@@ -480,6 +502,7 @@ NPF_Write(
 #ifdef HAVE_WFP_LOOPBACK_SUPPORT
 		if (Open->pFiltMod->Loopback == TRUE)
 		{
+			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_LOOPBACK_PACKET);
 			Status = NPF_LoopbackSendNetBufferLists(Open,
 				pNetBufferList);
 			if (!NT_SUCCESS(Status))
@@ -532,9 +555,9 @@ NPF_Write_End:
 			NPF_FreePackets(Open->pFiltMod, pNetBufferList);
 		}
 		// Otherwise, clean up TmpMdl directly
-		else if (TmpMdl && !IrpWasPended)
+		else if (TmpMdl && bFreeMdl)
 		{
-			NPF_FreeMdlAndBuffer(TmpMdl);
+			NPF_FreeMdlAndBuffer(TmpMdl, bFreeBuf);
 		}
 
 		if (Open)
@@ -566,7 +589,6 @@ NTSTATUS NPF_BufferedWrite(
 	ULONG					SendFlags = 0;
 	UINT					i;
 	LARGE_INTEGER			StartTicks = { 0 };
-	LARGE_INTEGER			TimeFreq;
 	struct timeval			BufStartTime = { 0 };
 	LONGLONG prev_usec_diff = 0;
 	struct dump_bpf_hdr* pHdr = NULL;
@@ -602,7 +624,7 @@ NTSTATUS NPF_BufferedWrite(
 		goto NPF_BufferedWrite_End;
 	}
 
-	PNPF_BUFFERED_WRITE_STATE pState = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(NPF_BUFFERED_WRITE_STATE), NPF_BUFFERED_WRITE_TAG);
+	PNPF_BUFFERED_WRITE_STATE pState = NPF_AllocateZeroNonpaged(sizeof(NPF_BUFFERED_WRITE_STATE), NPF_BUFFERED_WRITE_TAG);
 	if (!pState)
 	{
 		Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -660,11 +682,10 @@ NTSTATUS NPF_BufferedWrite(
 			break;
 		}
 
-		int npf_inject_type = NPF_GetIPVersion(Open->pFiltMod, UserBuff + ulDataOffset, pHdr->caplen);
+		USHORT EthType = NPF_GetIPVersion(Open->pFiltMod, UserBuff + ulDataOffset, pHdr->caplen);
 
 		/* Copy packet data to non-paged memory, otherwise we induce
-		 * page faults in NIC drivers: http://issues.nmap.org/1398
-		 * TODO: Try mapping the data without copying; system buffer ought to be nonpaged already with Buffered IO. */
+		 * page faults in NIC drivers: http://issues.nmap.org/1398 */
 		TmpMdl = NPF_CloneBufferToMdl(Open->pFiltMod, UserBuff + ulDataOffset, pHdr->caplen);
 
 		if (TmpMdl == NULL)
@@ -687,23 +708,22 @@ NTSTATUS NPF_BufferedWrite(
 			
 			INFO_DBG("NPF_BufferedWrite: no more free packets, returning.\n");
 
-			NPF_FreeMdlAndBuffer(TmpMdl);
+			NPF_FreeMdlAndBuffer(TmpMdl, TRUE);
 
 			break;
 		}
 		NT_ASSERT(pNetBufferList != NULL);
 
 		// Mark packet as necessary
-		if (npf_inject_type == NPF_INJECT_IPV4)
+		if (EthType == ETHERTYPE_IP)
 		{
 			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_IPV4);
-			NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(ETHERTYPE_IP);
 		}
-		else if (npf_inject_type == NPF_INJECT_IPV6)
+		else if (EthType == ETHERTYPE_IPV6)
 		{
 			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_IPV6);
-			NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(ETHERTYPE_IPV6);
 		}
+		NET_BUFFER_LIST_INFO(pNetBufferList, NetBufferListFrameType) = (PVOID)RtlUshortByteSwap(EthType);
 
 		// The packet has a buffer that needs to be freed after every single write
 		RESERVED(pNetBufferList)->FreeBufAfterWrite = TRUE;
@@ -713,7 +733,7 @@ NTSTATUS NPF_BufferedWrite(
 
 		TmpMdl->Next = NULL;
 
-		if (Sync && pHdr == UserBuff)
+		if (StartTicks.QuadPart == 0)
 		{
 			// First packet
 			// Retrieve the time references
@@ -766,6 +786,8 @@ NTSTATUS NPF_BufferedWrite(
 					// Explicit cast ok since condition above ensures this will be at most 1000000us.
 					i = (UINT)(((TargetTicks.QuadPart - CurTicks.QuadPart) * 1000000) / TimeFreq.QuadPart);
 					NT_ASSERT(i < 1000000);
+					// These are the NDIS-recommended routines for delaying execution.
+					// Note that both can fire up to 1 system clock tick (e.g. 15ms) later than requested.
 					if (i >= 50)
 					{
 						NdisMSleep(i);
@@ -774,12 +796,6 @@ NTSTATUS NPF_BufferedWrite(
 					{
 						NdisStallExecution(i);
 					}
-#if DBG
-					// We want to be as accurate as possible.
-					// In debug mode, treat an error of more than 1ms as a catastrophic failure.
-					CurTicks = KeQueryPerformanceCounter(NULL);
-					NT_ASSERT(CurTicks.QuadPart - TargetTicks.QuadPart < TimeFreq.QuadPart / 1000);
-#endif
 				}
 			}
 		}
@@ -796,6 +812,7 @@ NTSTATUS NPF_BufferedWrite(
 #ifdef HAVE_WFP_LOOPBACK_SUPPORT
 		if (Open->pFiltMod->Loopback == TRUE)
 		{
+			NdisSetNblFlag(pNetBufferList, NDIS_NBL_FLAGS_IS_LOOPBACK_PACKET);
 			Status = NPF_LoopbackSendNetBufferLists(Open,
 				pNetBufferList);
 			if (!NT_SUCCESS(Status))
@@ -875,15 +892,15 @@ NPF_FreePackets(
 
 	--*/
 {
-	BOOLEAN				FreeBufAfterWrite;
 	PNET_BUFFER_LIST    pNetBufList = NetBufferLists;
 	PNET_BUFFER         Currbuff;
 
 /*	TRACE_ENTER();*/
 
-	FreeBufAfterWrite = RESERVED(pNetBufList)->FreeBufAfterWrite;
+	BOOLEAN FreeBufAfterWrite = RESERVED(pNetBufList)->FreeBufAfterWrite;
+	BOOLEAN FreeMdlAfterWrite = RESERVED(pNetBufList)->FreeMdlAfterWrite;
 
-	if (FreeBufAfterWrite)
+	if (FreeBufAfterWrite || FreeMdlAfterWrite)
 	{
 		//
 		// Packet sent by NPF_BufferedWrite()
@@ -893,7 +910,7 @@ NPF_FreePackets(
 		Currbuff = NET_BUFFER_LIST_FIRST_NB(pNetBufList);
 		while (Currbuff)
 		{
-			NPF_FreeMdlAndBuffer(NET_BUFFER_FIRST_MDL(Currbuff));
+			NPF_FreeMdlAndBuffer(NET_BUFFER_FIRST_MDL(Currbuff), FreeBufAfterWrite);
 			Currbuff = NET_BUFFER_NEXT_NB(Currbuff);
 		}
 	}

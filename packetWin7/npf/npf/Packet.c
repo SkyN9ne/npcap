@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -122,7 +119,7 @@
 #endif // ALLOC_PRAGMA
 
 PNPCAP_DRIVER_EXTENSION g_pDriverExtension = NULL;
-
+LARGE_INTEGER TimeFreq = {0};
 
 UNICODE_STRING deviceSymLink = RTL_CONSTANT_STRING(L"\\DosDevices\\" NPF_DRIVER_NAME_WIDECHAR);
 
@@ -251,25 +248,23 @@ DriverEntry(
 	TRACE_ENTER();
 	// global config info, could use IoAllocateDriverObjectExtension, but
 	// that would require access to DRIVER_OBJECT to retrieve.
-	g_pDriverExtension = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(NPCAP_DRIVER_EXTENSION), NPF_DRIVER_EXTENSION_TAG);
+	g_pDriverExtension = NPF_AllocateZeroNonpaged(sizeof(NPCAP_DRIVER_EXTENSION), NPF_DRIVER_EXTENSION_TAG);
 	if (g_pDriverExtension == NULL)
 	{
 		ERROR_DBG("Failed to alloc g_pDriverExtension.\n");
 		TRACE_EXIT();
 		return STATUS_INSUFFICIENT_RESOURCES;
 	}
-	RtlZeroMemory(g_pDriverExtension, sizeof(NPCAP_DRIVER_EXTENSION));
 
 	RtlInitUnicodeString(&parametersPath, NULL);
 	parametersPath.MaximumLength=RegistryPath->Length+sizeof(L"\\Parameters");
-	parametersPath.Buffer=ExAllocatePoolWithTag(PagedPool, parametersPath.MaximumLength, NPF_UNICODE_BUFFER_TAG);
+	parametersPath.Buffer=NPF_AllocateZeroPaged(parametersPath.MaximumLength, NPF_UNICODE_BUFFER_TAG);
 	if (!parametersPath.Buffer) {
 		ERROR_DBG("Paged alloc of parametersPath failed.\n");
 		ExFreePool(g_pDriverExtension);
 		TRACE_EXIT();
 		return STATUS_INSUFFICIENT_RESOURCES;
 	}
-	RtlZeroMemory(parametersPath.Buffer, parametersPath.MaximumLength);
 	RtlCopyUnicodeString(&parametersPath, RegistryPath);
 	RtlAppendUnicodeToString(&parametersPath, L"\\Parameters");
 
@@ -293,12 +288,6 @@ DriverEntry(
 		NDIS_STRING Dot11SupportRegValueName = NDIS_STRING_CONST("Dot11Support");
 		g_pDriverExtension->bDot11SupportMode = !!NPF_GetRegistryOption_Integer(&parametersPath, &Dot11SupportRegValueName);
 		INFO_DBG("g_Dot11SupportMode = %lu\n", g_pDriverExtension->bDot11SupportMode);
-
-		// Get the VlanSupport option, if VlanSupport=1, Npcap driver will try to recognize 802.1Q VLAN tag when capturing and sending data.
-		// If the registry key doesn't exist, we view it as VlanSupport=0, so no VLAN support.
-		NDIS_STRING VlanSupportRegValueName = NDIS_STRING_CONST("VlanSupport");
-		g_pDriverExtension->bVlanSupportMode = !!NPF_GetRegistryOption_Integer(&parametersPath, &VlanSupportRegValueName);
-		INFO_DBG("g_VlanSupportMode = %lu\n", g_pDriverExtension->bVlanSupportMode);
 
 		// Get the TimestampMode option. The meanings of its values is described in time_calls.h.
 		// If the registry key doesn't exist, we view it as TimestampMode=0, so the default "QueryPerformanceCounter" timestamp gathering method.
@@ -389,14 +378,6 @@ DriverEntry(
 	do {
 		Status = STATUS_INSUFFICIENT_RESOURCES; // Status for any of the below failures
 		InitializeListHead(&g_pDriverExtension->AllOpens);
-
-		Status = ExInitializeLookasideListEx(&g_pDriverExtension->BufferPool, NULL, NULL, NPF_NONPAGED, 0, sizeof(BUFCHAIN_ELEM), NPF_PACKET_DATA_TAG, 0);
-		if (Status != STATUS_SUCCESS)
-		{
-			ERROR_DBG("Failed to allocate BufferPool\n");
-			break;
-		}
-		g_pDriverExtension->bBufferPoolInit = 1;
 
 		Status = ExInitializeLookasideListEx(&g_pDriverExtension->NBLCopyPool, NULL, NULL, NPF_NONPAGED, 0, sizeof(NPF_NBL_COPY), NPF_NBLC_POOL_TAG, 0);
 		if (Status != STATUS_SUCCESS)
@@ -512,8 +493,6 @@ DriverEntry(
 			ExDeleteLookasideListEx(&g_pDriverExtension->NBLCopyPool);
 		if (g_pDriverExtension->bSrcNBPoolInit)
 			ExDeleteLookasideListEx(&g_pDriverExtension->SrcNBPool);
-		if (g_pDriverExtension->bBufferPoolInit)
-			ExDeleteLookasideListEx(&g_pDriverExtension->BufferPool);
 		if (g_pDriverExtension->AllOpensLock)
 			NdisFreeRWLock(g_pDriverExtension->AllOpensLock);
 		NdisFreeSpinLock(&g_pDriverExtension->FilterArrayLock);
@@ -704,7 +683,7 @@ NPF_GetRegistryOption(
 			if (NT_SUCCESS(status) || status == STATUS_BUFFER_OVERFLOW || status == STATUS_BUFFER_TOO_SMALL)
 			{
 
-				valueInfoP = (PKEY_VALUE_PARTIAL_INFORMATION)ExAllocatePoolWithTag(PagedPool, resultLength, NPF_SHORT_TERM_TAG);
+				valueInfoP = (PKEY_VALUE_PARTIAL_INFORMATION)NPF_AllocateZeroPaged(resultLength, NPF_SHORT_TERM_TAG);
 				if (valueInfoP != NULL)
 				{
 					status = ZwQueryValueKey(keyHandle,
@@ -799,7 +778,7 @@ NPF_GetRegistryOption_String(
 
 			OutputString->Length = (USHORT)(valueInfoP->DataLength - sizeof(UNICODE_NULL));
 			OutputString->MaximumLength = (USHORT)(valueInfoP->DataLength);
-			OutputString->Buffer = ExAllocatePoolWithTag(NPF_NONPAGED, OutputString->MaximumLength, NPF_UNICODE_BUFFER_TAG);
+			OutputString->Buffer = NPF_AllocateZeroNonpaged(OutputString->MaximumLength, NPF_UNICODE_BUFFER_TAG);
 
 			if (OutputString->Buffer)
 			{
@@ -952,8 +931,6 @@ Return Value:
 		ExDeleteLookasideListEx(&g_pDriverExtension->NBLCopyPool);
 	if (g_pDriverExtension->bSrcNBPoolInit)
 		ExDeleteLookasideListEx(&g_pDriverExtension->SrcNBPool);
-	if (g_pDriverExtension->bBufferPoolInit)
-		ExDeleteLookasideListEx(&g_pDriverExtension->BufferPool);
 #ifdef HAVE_DOT11_SUPPORT
 	if (g_pDriverExtension->bDot11HeaderPoolInit)
 		ExDeleteLookasideListEx(&g_pDriverExtension->Dot11HeaderPool);
@@ -1161,7 +1138,7 @@ static NTSTATUS funcBIOCSETF(_In_ POPEN_INSTANCE pOpen,
 	ulBufLen = insns * sizeof(struct bpf_insn);
 
 	// Allocate the memory to contain the new filter program
-	PUCHAR TmpBPFProgram = (PUCHAR)ExAllocatePoolWithTag(NPF_NONPAGED, ulBufLen, NPF_BPF_TAG);
+	PUCHAR TmpBPFProgram = (PUCHAR)NPF_AllocateZeroNonpaged(ulBufLen, NPF_BPF_TAG);
 	if (TmpBPFProgram == NULL)
 	{
 		WARNING_DBG("Failed to alloc TmpBPFProgram.\n");
@@ -1177,20 +1154,18 @@ static NTSTATUS funcBIOCSETF(_In_ POPEN_INSTANCE pOpen,
 		return STATUS_CANCELLED;
 	}
 
-	// Lock the BPF engine for writing. 
-	NdisAcquireRWLockWrite(pOpen->MachineLock, &lockState, 0);
+	PVOID pOld = InterlockedExchangePointer(&pOpen->BpfProgram.bpf_program, TmpBPFProgram);
+	// After InterlockedExchangePointer above, the memory at TmpBPFProgram
+	// is pointed to by pOpen->BpfProgram.bpf_program, so there is no memory leak here.
+	NPF_AnalysisAssumeAliased(TmpBPFProgram);
 
 	// Free the previous buffer if it was present
-	if (pOpen->bpfprogram != NULL)
+	if (pOld != NULL)
 	{
-		ExFreePool(pOpen->bpfprogram);
-		pOpen->bpfprogram = NULL;
+		ExFreePool(pOld);
 	}
-	pOpen->bpfprogram = TmpBPFProgram;
 
 	// release the machine lock and then reset the buffer
-	NdisReleaseRWLock(pOpen->MachineLock, &lockState);
-
 	NPF_ResetBufferContents(pOpen, TRUE);
 
 	NPF_StopUsingOpenInstance(pOpen, OpenDetached, NPF_IRQL_UNKNOWN);
@@ -1519,6 +1494,7 @@ static NTSTATUS funcBIOC_OID(_In_ POPEN_INSTANCE pOpen,
 #ifdef HAVE_WFP_LOOPBACK_SUPPORT
 	if (!bSetOid && pOpen->pFiltMod->Loopback)
 	{
+		PNDIS_LINK_STATE pLinkState = NULL;
 		switch (OidData->Oid)
 		{
 			case OID_GEN_MAXIMUM_TOTAL_SIZE:
@@ -1569,7 +1545,7 @@ static NTSTATUS funcBIOC_OID(_In_ POPEN_INSTANCE pOpen,
 					break;
 				}
 				*Info = FIELD_OFFSET(PACKET_OID_DATA, Data) + sizeof(NDIS_LINK_STATE);
-				PNDIS_LINK_STATE pLinkState = (PNDIS_LINK_STATE) OidData->Data;
+				pLinkState = (PNDIS_LINK_STATE) OidData->Data;
 				pLinkState->MediaConnectState = MediaConnectStateConnected;
 				pLinkState->MediaDuplexState = MediaDuplexStateFull;
 				pLinkState->XmitLinkSpeed = NDIS_LINK_SPEED_UNKNOWN;
@@ -1595,7 +1571,7 @@ static NTSTATUS funcBIOC_OID(_In_ POPEN_INSTANCE pOpen,
 		if (bSetOid)
 		{
 			INFO_DBG("Dot11: AdapterName=%ws, OID_GEN_MEDIA_IN_USE & BIOCSETOID, fail it\n", pOpen->pFiltMod->AdapterName.Buffer);
-			Status = STATUS_UNSUCCESSFUL;
+			Status = STATUS_NOT_SUPPORTED;
 		}
 		else
 		{
@@ -1723,7 +1699,7 @@ static NTSTATUS funcBIOC_OID(_In_ POPEN_INSTANCE pOpen,
 	// TODO: Test whether this copy needs to happen. Buffered I/O ought to
 	// mean AssociatedIrp.SystemBuffer is non-paged already and is not
 	// freed until we complete the IRP.
-	OidBuffer = ExAllocatePoolWithTag(NPF_NONPAGED, OidData->Length, NPF_USER_OID_TAG);
+	OidBuffer = NPF_AllocateZeroNonpaged(OidData->Length, NPF_USER_OID_TAG);
 	if (OidBuffer == NULL)
 	{
 		INFO_DBG("Failed to allocate OidBuffer\n");
@@ -1816,7 +1792,7 @@ static NTSTATUS funcBIOCSTIMESTAMPMODE(_In_ POPEN_INSTANCE pOpen,
 	       _Out_ PULONG_PTR Info)
 {
 	static const ULONG uNeeded = sizeof(ULONG);
-	ULONG mode = 0;
+	ULONG mode = 0, oldmode = 0;
 
 	*Info = 0;
 	if (ulBufLen < uNeeded)
@@ -1837,8 +1813,13 @@ static NTSTATUS funcBIOCSTIMESTAMPMODE(_In_ POPEN_INSTANCE pOpen,
 		return STATUS_CANCELLED;
 	}
 
-	if (InterlockedExchange(&pOpen->TimestampMode, mode) != mode)
+	oldmode = InterlockedExchange(&pOpen->TimestampMode, mode);
+	if (oldmode != mode)
 	{
+		if (pOpen->OpenStatus <= OpenRunning)
+		{
+			NPF_UpdateTimestampModeCounts(pOpen->pFiltMod, mode, oldmode);
+		}
 		/* Reset buffer, since contents have differing timestamps */
 		NPF_ResetBufferContents(pOpen, TRUE);
 	}

@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -117,6 +114,10 @@
 #define TIMESTAMPMODE_QUERYSYSTEMTIME_PRECISE 4
 #define /* DEPRECATED */ TIMESTAMPMODE_SYNCHRONIZATION_ON_CPU_NO_FIXUP 99
 
+#define TIMESTAMPMODE_UNSET ((ULONG) -1)
+
+extern LARGE_INTEGER TimeFreq;
+
 inline BOOLEAN NPF_TimestampModeSupported(_In_ ULONG mode)
 {
 	return mode == TIMESTAMPMODE_SINGLE_SYNCHRONIZATION
@@ -159,7 +160,7 @@ inline void TIME_SYNCHRONIZE(
 	LARGE_INTEGER SystemTime;
 	//LARGE_INTEGER i;
 	//ULONG tmp2;
-	LARGE_INTEGER TimeFreq, PTime;
+	LARGE_INTEGER PTime;
 
 	// get the absolute value of the system boot time.   
 	PTime = KeQueryPerformanceCounter(&TimeFreq);
@@ -180,15 +181,13 @@ inline void TIME_SYNCHRONIZE(
 	}
 }	
 
-inline void GetTimeKQPC(
+inline void GetTimevalFromPerfCount(
 		_Out_ struct timeval* dst,
-		_In_ struct timeval* start)
+		_In_ struct timeval* start,
+		_In_ LARGE_INTEGER PTime)
 {
-	LARGE_INTEGER PTime, TimeFreq;
-	LONG tmp;
-
-	PTime = KeQueryPerformanceCounter(&TimeFreq);
-	tmp = (LONG)(PTime.QuadPart / TimeFreq.QuadPart);
+	NT_ASSERT(TimeFreq.QuadPart != 0);
+	LONG tmp = (LONG)(PTime.QuadPart / TimeFreq.QuadPart);
 
 	//it should be only the normal case i.e. TIMESTAMPMODE_SINGLESYNCHRONIZATION
 	dst->tv_sec = start->tv_sec + tmp;
@@ -201,6 +200,24 @@ inline void GetTimeKQPC(
 	}
 }
 
+inline void GetTimeKQPC(
+		_Out_ struct timeval* dst,
+		_In_ struct timeval* start)
+{
+	LARGE_INTEGER PTime;
+
+	PTime = KeQueryPerformanceCounter(NULL);
+	GetTimevalFromPerfCount(dst, start, PTime);
+}
+
+inline void GetTimevalFromSystemTime(
+		_Out_ struct timeval* dst,
+		_In_ LARGE_INTEGER SystemTime)
+{
+	dst->tv_sec = (LONG)(SystemTime.QuadPart / 10000000 - 11644473600);
+	dst->tv_usec = (LONG)((SystemTime.QuadPart % 10000000) / 10);
+}
+
 inline void GetTimeQST(
 		_Out_ struct timeval* dst)
 {
@@ -208,8 +225,7 @@ inline void GetTimeQST(
 
 	KeQuerySystemTime(&SystemTime);
 
-	dst->tv_sec = (LONG)(SystemTime.QuadPart / 10000000 - 11644473600);
-	dst->tv_usec = (LONG)((SystemTime.QuadPart % 10000000) / 10);
+	GetTimevalFromSystemTime(dst, SystemTime);
 }
 
 inline void GetTimeQST_precise(
@@ -219,8 +235,7 @@ inline void GetTimeQST_precise(
 
 	BestQuerySystemTime(&SystemTime);
 
-	dst->tv_sec = (LONG)(SystemTime.QuadPart / 10000000 - 11644473600);
-	dst->tv_usec = (LONG)((SystemTime.QuadPart % 10000000) / 10);
+	GetTimevalFromSystemTime(dst, SystemTime);
 }
 
 
@@ -242,6 +257,5 @@ inline void GET_TIME(
 			break;
 	}
 }
-
 
 #endif /*_time_calls*/

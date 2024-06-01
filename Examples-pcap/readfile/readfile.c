@@ -1,7 +1,10 @@
+#include <string.h>
 #include <stdio.h>
 #include <pcap.h>
 
 #define LINE_LEN 16
+#define TIMEVAL_AFTER(a, b) (((a).tv_sec > (b).tv_sec) || ((a).tv_sec == (b).tv_sec && (a).tv_usec > (b).tv_usec))
+#define TIMEVAL_BEFORE(a, b) (((a).tv_sec < (b).tv_sec) || ((a).tv_sec == (b).tv_sec && (a).tv_usec < (b).tv_usec))
 
 #ifdef _WIN32
 #include <tchar.h>
@@ -25,10 +28,20 @@ BOOL LoadNpcapDlls()
 
 void dispatcher_handler(u_char *, const struct pcap_pkthdr *, const u_char *);
 
+struct state {
+	int verify;
+	const struct timeval first;
+	const struct timeval prev;
+	pcap_t *p;
+};
+
 int main(int argc, char **argv)
 {
 	pcap_t *fp;
+	char *filename = NULL;
 	char errbuf[PCAP_ERRBUF_SIZE];
+	struct state st;
+	memset(&st, 0, sizeof(st));
 	
 #ifdef _WIN32
 	/* Load Npcap and its functions. */
@@ -39,25 +52,47 @@ int main(int argc, char **argv)
 	}
 #endif
 
-	if(argc != 2)
+	if (argc == 3 && strcmp(argv[1], "-v") == 0) {
+		filename = argv[2];
+		st.verify = 1;
+	}
+	else if(argc != 2)
 	{	
-		printf("usage: %s filename", argv[0]);
+		printf("usage: %s [-v] filename", argv[0]);
 		return -1;
 
 	}
+	else
+		filename = argv[1];
 	
 	/* Open the capture file */
-	if ((fp = pcap_open_offline(argv[1],			// name of the device
-						 errbuf					// error buffer
-						 )) == NULL)
+	if ((fp = pcap_open_offline(filename, // name of the device
+					errbuf // error buffer
+				   )) == NULL)
 	{
-		fprintf(stderr,"\nUnable to open the file %s.\n", argv[1]);
+		fprintf(stderr,"\nUnable to open the file %s: %s\n", filename, errbuf);
 		return -1;
 	}
 
 	/* read and dispatch packets until EOF is reached */
-	pcap_loop(fp, 0, dispatcher_handler, NULL);
+	st.p = fp;
+	if (0 != pcap_loop(fp, 0, dispatcher_handler, (u_char *) &st)) {
+		fprintf(stderr, "pcap_loop error: %s\n", pcap_geterr(fp));
+		pcap_close(fp);
+		return -1;
+	}
 
+	if (st.prev.tv_sec == 0 && st.prev.tv_usec == 0) {
+		fprintf(stderr, "No packets processed!\n");
+		pcap_close(fp);
+		return -1;
+	}
+
+	if (!TIMEVAL_AFTER(st.prev, st.first)) {
+		fprintf(stderr, "Timestamps do not increase: %lu.%06lu\n", st.prev.tv_sec, st.prev.tv_usec);
+		pcap_close(fp);
+		return -1;
+	}
 	pcap_close(fp);
 	return 0;
 }
@@ -70,10 +105,18 @@ void dispatcher_handler(u_char *temp1,
 {
 	u_int i=0;
 	
-	/*
-	 * unused variable
-	 */
-	(VOID*)temp1;
+	struct state *st = (struct state *) temp1;
+	if (st->first.tv_sec == 0 && st->first.tv_usec == 0) {
+		memcpy(&st->first, &header->ts, sizeof(struct timeval));
+	}
+
+	if (st->verify && (st->prev.tv_sec != 0 || st->prev.tv_usec != 0)) {
+		/* Default timestamp mode is monotonically increasing */
+		if (TIMEVAL_BEFORE(header->ts, st->prev)) {
+			fprintf(stderr, "Backwards timestamp!\n");
+			pcap_breakloop(st->p);
+		}
+	}
 
 	/* print pkt timestamp and pkt len */
 	printf("%ld:%ld (%ld)\n", header->ts.tv_sec, header->ts.tv_usec, header->len);			
@@ -86,5 +129,5 @@ void dispatcher_handler(u_char *temp1,
 	}
 	
 	printf("\n\n");		
-	
+	memcpy(&st->prev, &header->ts, sizeof(struct timeval));
 }

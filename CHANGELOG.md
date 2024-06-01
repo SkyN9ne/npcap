@@ -1,3 +1,108 @@
+## Npcap 1.79 [2024-01-19]
+
+* Fixed a condition where disabling and re-enabling a network adapter while a
+  capture is active would prevent any packets from being received by the system
+  until the capture handle was closed. Fixes [#710](http://issues.npcap.org/710).
+
+* Introduced a workaround for a previously-unknown bug in Microsoft's bthpan.sys that was
+  causing BSoD crashes with `INVALID_MDL_RANGE` when Npcap or other drivers sent packets over
+  a Bluetooth-tethered connection. Microsoft intends to patch this Windows bug, but Npcap will
+  no longer trigger it regardless of patch status. Fixes [#708](http://issues.npcap.org/708).
+
+## Npcap 1.78 [2023-10-18]
+
+* Fixed a memory leak in Npcap 1.77 which occurs when the kernel buffer is
+  full. Fixes [#701](http://issues.npcap.org/701).
+
+* Correctly handle an allocation failure during out-of-memory condition,
+  avoiding a null pointer dereference. Fixes [#698](http://issues.npcap.org/698).
+
+## Npcap 1.77 [2023-09-29]
+
+* Fixed a memory leak in Npcap 1.76 only which occurs while capturing traffic
+  at high data rates. Fixes [#688](http://issues.npcap.org/688).
+
+* Fixed an issue in Npcap 1.76 where packets delivered to the driver by NDIS in
+  a single indication, having the same timestamp, would be placed in the packet
+  queue in reverse order. Fixes [#684](http://issues.npcap.org/684).
+
+* Fixed an issue with Npcap 1.75 and 1.76 where changing timestamp modes could
+  result in all packets being delivered with the same timestamp. Fixes [#695](http://issues.npcap.org/695).
+
+* Fixed an issue with the Npcap installer that caused it to install duplicate
+  certificates in the system's certificate store, which caused problems for
+  some software. The fixed installer will remove the duplicates. Fixes [#692](http://issues.npcap.org/692).
+
+## Npcap 1.76 [2023-07-19]
+
+* Our code signing key has been reissued to "Nmap Software LLC" replacing the
+  old "Insecure.Com LLC" subject name.
+
+* Improve performance of the driver by reducing lock contention and
+  consolidating data copy operations. This may help address
+  [#663](http://issues.npcap.org/663).
+
+* Additional fixes to locking discipline to potentially address a BSoD issue, [#679](http://issues.npcap.org/679).
+
+## Npcap 1.75 [2023-04-27]
+
+* Fix a critical regression in Npcap 1.74 which caused all captured packets to
+  have the same timestamp. Fixes [#668](http://issues.npcap.org/668).
+
+## Npcap 1.74 [2023-04-19]
+
+* Updated libpcap to 1.10.4.
+
+* Fixed an issue ([#667](http://issues.npcap.org/667)) that prevented capture
+  handles from receiving packets after a NDIS stack pause operation.
+
+* Fixed an issue that could cause inaccurate timestamps when multiple handles
+  were open and using different timestamp modes. Fixes [#666](http://issues.npcap.org/666).
+
+* Fixed an issue preventing raw WiFi frame capture since Npcap 1.60.
+
+* Fixed an issue causing "failed to set hardware filter to promiscuous mode"
+  errors with NetAdapterCx-based Windows 11 miniport drivers. Npcap was
+  interpreting the NDIS spec too strictly; we have [opened an issue with Microsoft](https://github.com/microsoft/Network-Adapter-Class-Extension/issues/14)
+  to address the fault in netadaptercx.sys. Fixes [#628](http://issues.npcap.org/628).
+
+* Addressed several code readability and portability fixes in Packet.dll
+  discovered using clang-tidy via Visual Studio Code Analysis.
+
+## Npcap 1.73 [2023-03-28]
+
+* Fixed an issue causing "failed to set hardware filter to promiscuous mode"
+  errors due to a new code path failing to return appropriate error codes. Fix
+  by Guy Harris in [PR #656](https://github.com/nmap/npcap/pull/656).
+  Fixes [#628](http://issues.npcap.org/628).
+
+* Fixed an issue with WlanHelper causing "error 0x7b" since Npcap 1.70.Fix by
+  Hauke Neitzel in [PR #652](https://github.com/nmap/npcap/pull/652).
+  Fixes [#649](http://issues.npcap.org/649).
+
+* Fixed an issue preventing capture handles from reattaching after NDIS stack
+  pause operations, resulting in persistent `ERROR_DEVICE_REMOVED` (1617)
+  errors. Fixes [#627](http://issues.npcap.org/627).
+
+* Restored original behavior of timestamps in the default case, 
+  `PCAP_TSTAMP_HOST_HIPREC_UNSYNCED`/`TIMESTAMPMODE_SINGLE_SYNCHRONIZATION`.
+  Since Npcap 0.9994, the timestamp was resynchronized after NDIS stack pause
+  operations, which reduced timestamp drift from wall clock time but made it no
+  longer monotonic, making packet interval calculations inaccurate. This
+  restores the default behavior of WinPcap.
+
+* Fixed an issue that prevented Npcap 1.71 and 1.72 from being completely
+  removed on uninstall. A misconfigured npcap driver service had persisted.
+  Fixes [#657](http://issues.npcap.org/657).
+
+* Fixed an issue where applications using Npcap 1.20 or later DLLs with a Npcap
+  1.00 driver would crash due to a stack buffer overrun when the driver returned
+  too many bytes in response to a request for timestamp modes. Additionally,
+  changed NPFInstall.exe to attempt to uninstall the Npcap NetCfg component
+  prior to installation, in case an improperly-uninstalled component persists.
+
+* Updated libpcap to 1.10.3.
+
 ## Npcap 1.72 [2022-12-14]
 
 * Fixed an issue where promiscuous mode or other hardware packet filters are ignored after a second

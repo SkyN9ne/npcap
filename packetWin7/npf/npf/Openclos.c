@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -298,20 +295,17 @@ NPF_ResetBufferContents(
 _Use_decl_annotations_
 VOID NPF_ReturnNBCopies(PNPF_NB_COPIES pNBCopy)
 {
-	PBUFCHAIN_ELEM pDeleteMe = NULL;
-	// FirstElem is not separately allocated
-	PBUFCHAIN_ELEM pElem = pNBCopy->FirstElem.Next;
-	ULONG refcount = NpfInterlockedDecrement(&(LONG)pNBCopy->refcount);
-
+	PVOID pDeleteMe = pNBCopy->Buffer;
+	LONG refcount = NpfInterlockedDecrement(&pNBCopy->refcount);
+	NT_ASSERT(refcount >= 0);
 	if (refcount == 0)
 	{
-		ExFreeToLookasideListEx(&g_pDriverExtension->NBCopiesPool, pNBCopy);
-		while (pElem != NULL)
+		if (pDeleteMe != NULL)
 		{
-			pDeleteMe = pElem;
-			pElem = pElem->Next;
-			ExFreeToLookasideListEx(&g_pDriverExtension->BufferPool, pDeleteMe);
+			NT_ASSERT(pNBCopy->ulSize > 0);
+			ExFreePoolWithTag(pDeleteMe, NPF_PACKET_DATA_TAG);
 		}
+		ExFreeToLookasideListEx(&g_pDriverExtension->NBCopiesPool, pNBCopy);
 	}
 }
 
@@ -319,7 +313,8 @@ _Use_decl_annotations_
 VOID NPF_ReturnNBLCopy(PNPF_NBL_COPY pNBLCopy)
 {
 	PUCHAR pDot11RadiotapHeader = pNBLCopy->Dot11RadiotapHeader;
-	ULONG refcount = NpfInterlockedDecrement(&(LONG)pNBLCopy->refcount);
+	LONG refcount = NpfInterlockedDecrement(&pNBLCopy->refcount);
+	NT_ASSERT(refcount >= 0);
 	if (refcount == 0)
 	{
 		ExFreeToLookasideListEx(&g_pDriverExtension->NBLCopyPool, pNBLCopy);
@@ -449,7 +444,7 @@ NPF_OpenAdapter(
 	Open->UserPID = IoGetRequestorProcessId(Irp);
 
 	INFO_DBG(
-		"Open(%p) name=%ws, Loopback=%u\n",
+		"Open(%p) name=%ws, Loopback=%d\n",
 		Open,
 		IrpSp->FileObject->FileName.Buffer,
 		pFiltMod ? pFiltMod->Loopback : 0);
@@ -563,6 +558,70 @@ NTSTATUS NPF_EnableOps(_In_ PNPCAP_FILTER_MODULE pFiltMod)
 	return Status;
 }
 
+VOID
+NPF_RegisterBpf(
+	_In_ PNPCAP_FILTER_MODULE pFiltMod,
+	_In_ PNPCAP_BPF_PROGRAM pBpfProgram)
+{
+	// Assert/verify pBpfProgram fields are set
+	LOCK_STATE_EX lockState;
+
+	// Lock the BpfPrograms list
+	NdisAcquireRWLockWrite(pFiltMod->BpfProgramsLock, &lockState, 0);
+	// Insert/update the bpf for this open instance
+	if (pBpfProgram->BpfProgramsEntry.Flink != NULL)
+	{
+		// This program is in the list already.
+#if DBG
+		// In debug mode, we can verify/assert this.
+		BOOLEAN bFound = FALSE;
+		NT_ASSERT(pBpfProgram->BpfProgramsEntry.Blink != NULL);
+		for (PLIST_ENTRY Curr = pFiltMod->BpfPrograms.Flink;
+				Curr != &pFiltMod->BpfPrograms;
+				Curr = Curr->Flink)
+		{
+			if (Curr == &pBpfProgram->BpfProgramsEntry)
+			{
+				NT_ASSERT(Curr->Flink->Blink == Curr);
+				bFound = TRUE;
+				break;
+			}
+		}
+		NT_ASSERT(bFound);
+#endif
+	}
+	else
+	{
+		NT_ASSERT(pBpfProgram->BpfProgramsEntry.Blink == NULL);
+		InsertTailList(&pFiltMod->BpfPrograms, &pBpfProgram->BpfProgramsEntry);
+	}
+	// Unlock the list
+	NdisReleaseRWLock(pFiltMod->BpfProgramsLock, &lockState);
+}
+VOID
+NPF_UnregisterBpf(
+	_In_ PNPCAP_FILTER_MODULE pFiltMod,
+	_In_ PNPCAP_BPF_PROGRAM pBpfProgram)
+{
+	LOCK_STATE_EX lockState;
+	if (pBpfProgram->BpfProgramsEntry.Flink == NULL &&
+			NT_VERIFY(pBpfProgram->BpfProgramsEntry.Blink == NULL))
+	{
+		return;
+	}
+	NT_ASSERT(pBpfProgram->BpfProgramsEntry.Blink != NULL);
+	// Lock the BpfPrograms list
+	NdisAcquireRWLockWrite(pFiltMod->BpfProgramsLock, &lockState, 0);
+	// remove the bpf for this open instance
+	RemoveEntryList(&pBpfProgram->BpfProgramsEntry);
+	// Unlock the list
+	NdisReleaseRWLock(pFiltMod->BpfProgramsLock, &lockState);
+
+	// Make sure we know this has been removed
+	pBpfProgram->BpfProgramsEntry.Flink = NULL;
+	pBpfProgram->BpfProgramsEntry.Blink = NULL;
+}
+
 /* State table. SUCCESS = PendingIrps[MaxState]++
  *               \  MaxState
  *                \ --------
@@ -596,18 +655,22 @@ NPF_StartUsingOpenInstance(
 		return FALSE;
 	}
 
+	// Have to hold this lock before checking/using pOpen->pFiltMod
+	FILTER_ACQUIRE_LOCK(&pOpen->OpenInUseLock, AtDispatchLevel);
+
 	// Do we need an attached adapter?
 	if (MaxState <= OpenAttached)
-	{	bAttached = (pOpen->pFiltMod != NULL && NPF_StartUsingBinding(pOpen->pFiltMod, AtDispatchLevel));
+	{
+		bAttached = (pOpen->pFiltMod != NULL && NPF_StartUsingBinding(pOpen->pFiltMod, TRUE));
 		if (!bAttached)
 		{
 			// Not attached, but need to be.
+			FILTER_RELEASE_LOCK(&pOpen->OpenInUseLock, AtDispatchLevel);
 			WARNING_DBG("Not attached: pFiltMod = %p\n", pOpen->pFiltMod);
 			return FALSE;
 		}
 	}
 
-	FILTER_ACQUIRE_LOCK(&pOpen->OpenInUseLock, AtDispatchLevel);
 	if (MaxState == OpenRunning)
 	{
 		// NPF_EnableOps must be called at PASSIVE_LEVEL. Release the lock first.
@@ -629,7 +692,10 @@ NPF_StartUsingOpenInstance(
 				// Get the absolute value of the system boot time.
 				// This is used for timestamp conversion.
 				TIME_SYNCHRONIZE(&pOpen->start);
+				NPF_UpdateTimestampModeCounts(pOpen->pFiltMod, pOpen->TimestampMode, TIMESTAMPMODE_UNSET);
 
+				// Insert a null filter (accept all)
+				NPF_RegisterBpf(pOpen->pFiltMod, &pOpen->BpfProgram);
 				pOpen->OpenStatus = OpenRunning;
 			}
 			else
@@ -684,12 +750,12 @@ NPF_StopUsingOpenInstance(
 	NT_ASSERT(MaxState < OpenClosed);
 	NT_ASSERT(pOpen->PendingIrps[MaxState] > 0);
 	pOpen->PendingIrps[MaxState]--;
-	FILTER_RELEASE_LOCK(&pOpen->OpenInUseLock, AtDispatchLevel);
 
 	if (MaxState <= OpenAttached)
 	{
 		NPF_StopUsingBinding(pOpen->pFiltMod, AtDispatchLevel);
 	}
+	FILTER_RELEASE_LOCK(&pOpen->OpenInUseLock, AtDispatchLevel);
 }
 
 //-------------------------------------------------------------------
@@ -705,6 +771,11 @@ NPF_DemoteOpenStatus(
 
 	NT_ASSERT(NewState > OldState);
 	INFO_DBG("Open %p: %d -> %d\n", pOpen, OldState, NewState);
+	if (OldState == OpenRunning)
+	{
+		NPF_UpdateTimestampModeCounts(pOpen->pFiltMod, TIMESTAMPMODE_UNSET, pOpen->TimestampMode);
+		NPF_UnregisterBpf(pOpen->pFiltMod, &pOpen->BpfProgram);
+	}
 
 	return OldState;
 }
@@ -713,6 +784,7 @@ NPF_DemoteOpenStatus(
 
 _IRQL_requires_(PASSIVE_LEVEL)
 VOID NPF_OpenWaitPendingIrps(
+		_At_(pOpen->OpenStatus, _In_range_(OpenDetached,OpenClosed))
 	_In_ POPEN_INSTANCE pOpen
 	)
 {
@@ -724,9 +796,10 @@ VOID NPF_OpenWaitPendingIrps(
 
 	NdisAcquireSpinLock(&pOpen->OpenInUseLock);
 	NT_ASSERT(pOpen->OpenStatus <= OpenClosed);
+	NT_ASSERT(pOpen->OpenStatus >= OpenDetached);
 
 	// Wait for IRPs that require an attached adapter
-	for (state = pOpen->OpenStatus - 1; state < OpenClosed && state >= OpenRunning; state--)
+	for (state = pOpen->OpenStatus - 1; state < pOpen->OpenStatus && state >= OpenRunning; state--)
 	{
 		while (pOpen->PendingIrps[state] > 0)
 		{
@@ -759,10 +832,10 @@ NPF_ReleaseOpenInstanceResources(
 	//
 	// Free the filter if it's present
 	//
-	if (pOpen->bpfprogram != NULL)
+	if (pOpen->BpfProgram.bpf_program != NULL)
 	{
-		ExFreePool(pOpen->bpfprogram);
-		pOpen->bpfprogram = NULL;
+		ExFreePool(pOpen->BpfProgram.bpf_program);
+		pOpen->BpfProgram.bpf_program = NULL;
 	}
 
 	//
@@ -785,7 +858,6 @@ NPF_ReleaseOpenInstanceResources(
 	}
 
 	NdisFreeRWLock(pOpen->BufferLock);
-	NdisFreeRWLock(pOpen->MachineLock);
 	NdisFreeSpinLock(&pOpen->CountersLock);
 	NdisFreeSpinLock(&pOpen->OpenInUseLock);
 
@@ -829,6 +901,7 @@ NPF_ReleaseFilterModuleResources(
 
 	NdisFreeSpinLock(&pFiltMod->OIDLock);
 	NdisFreeRWLock(pFiltMod->OpenInstancesLock);
+	NdisFreeRWLock(pFiltMod->BpfProgramsLock);
 	NdisFreeSpinLock(&pFiltMod->AdapterHandleLock);
 
 	TRACE_EXIT();
@@ -866,10 +939,9 @@ NPF_OidGetUlongNonpagedPtr(
 
 	INFO_DBG("pFiltMod(%p) Oid %#x, Status %#x, %lu bytes\n",
 			pFiltMod, Oid, Status, BytesProcessed);
-	if (Status == NDIS_STATUS_SUCCESS && BytesProcessed != sizeof(ULONG))
+	if (Status == NDIS_STATUS_SUCCESS)
 	{
-		ERROR_DBG("BytesProcessed = %#lx != sizeof(ULONG)\n", BytesProcessed);
-		Status = NDIS_STATUS_FAILURE;
+		NT_ASSERT(BytesProcessed == sizeof(ULONG));
 	}
 	return Status;
 }
@@ -953,7 +1025,7 @@ NPF_GetDataRateMappingTable(
 	}
 
 	// Not set, allocate a new one
-	PDOT11_DATA_RATE_MAPPING_TABLE pDRMT = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(DOT11_DATA_RATE_MAPPING_TABLE), NPF_DOT11_POOL_TAG);
+	PDOT11_DATA_RATE_MAPPING_TABLE pDRMT = NPF_AllocateZeroNonpaged(sizeof(DOT11_DATA_RATE_MAPPING_TABLE), NPF_DOT11_POOL_TAG);
 	if (pDRMT == NULL)
 	{
 		WARNING_DBG("Failed to allocate DOT11_DATA_RATE_MAPPING_TABLE\n");
@@ -1002,7 +1074,7 @@ NPF_GetDataRateMappingTable(
 	{
 		WARNING_DBG("pFiltMod(%p) DOT11_DATA_RATE_MAPPING_TABLE Status %#x, read %lu, expected %zu\n",
 				pFiltMod, Status, BytesProcessed, sizeof(DOT11_DATA_RATE_MAPPING_TABLE));
-		Status = NDIS_STATUS_FAILURE;
+		Status = NDIS_STATUS_INVALID_DATA;
 		pFiltMod->DataRateMappingTable = NULL;
 		ExFreePoolWithTag(pDRMT, NPF_DOT11_POOL_TAG);
 	}
@@ -1060,7 +1132,7 @@ NPF_GetCurrentOperationMode(
 	ULONG BytesProcessed = 0;
     PVOID pBuffer = NULL;
 
-    pBuffer = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(CurrentOperationMode), NPF_INTERNAL_OID_TAG);
+    pBuffer = NPF_AllocateZeroNonpaged(sizeof(CurrentOperationMode), NPF_INTERNAL_OID_TAG);
     if (pBuffer == NULL)
     {
         INFO_DBG("Allocate pBuffer failed\n");
@@ -1377,6 +1449,7 @@ NPF_RemoveFromGroupOpenArray(
 		return;
 	}
 	pOpen->OpenStatus = max(pOpen->OpenStatus, OpenDetached);
+	NPF_UnregisterBpf(pOpen->pFiltMod, &pOpen->BpfProgram);
 	pOpen->pFiltMod = NULL;
 	NdisReleaseSpinLock(&pOpen->OpenInUseLock);
 
@@ -1608,7 +1681,7 @@ NPF_GetFilterModuleByAdapterName(
 
 	// Make sure we can hold at least as long a name as requested.
 	BaseName.MaximumLength = max(sizeof(L"Loopback"), pAdapterName->MaximumLength);
-	BaseName.Buffer = ExAllocatePoolWithTag(NPF_NONPAGED, BaseName.MaximumLength, NPF_UNICODE_BUFFER_TAG);
+	BaseName.Buffer = NPF_AllocateZeroNonpaged(BaseName.MaximumLength, NPF_UNICODE_BUFFER_TAG);
 	if (BaseName.Buffer == NULL) {
 		INFO_DBG("failed to allocate BaseName.Buffer\n");
 		TRACE_EXIT();
@@ -1715,7 +1788,7 @@ NPF_CreateOpenObject(NDIS_HANDLE NdisHandle)
 	TRACE_ENTER();
 
 	// allocate some memory for the open structure
-	Open = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(OPEN_INSTANCE), NPF_OPEN_TAG);
+	Open = NPF_AllocateZeroNonpaged(sizeof(OPEN_INSTANCE), NPF_OPEN_TAG);
 
 	if (Open == NULL)
 	{
@@ -1724,8 +1797,6 @@ NPF_CreateOpenObject(NDIS_HANDLE NdisHandle)
 		TRACE_EXIT();
 		return NULL;
 	}
-
-	RtlZeroMemory(Open, sizeof(OPEN_INSTANCE));
 
 	/* Buffer */
 	Open->BufferLock = NdisAllocateRWLock(NdisHandle);
@@ -1745,23 +1816,13 @@ NPF_CreateOpenObject(NDIS_HANDLE NdisHandle)
 
 	Open->OpenSignature = OPEN_SIGNATURE;
 	Open->OpenStatus = OpenClosed;
-
-	Open->MachineLock = NdisAllocateRWLock(NdisHandle);
-	if (Open->MachineLock == NULL)
-	{
-		INFO_DBG("Failed to allocate MachineLock\n");
-		NdisFreeRWLock(Open->BufferLock);
-		ExFreePool(Open);
-		TRACE_EXIT();
-		return NULL;
-	}
+	Open->ReattachStatus = OpenClosed;
 
 	//
 	// Initialize the open instance
 	//
 	//Open->BindContext = NULL;
 	Open->TimestampMode = g_pDriverExtension->TimestampMode;
-	Open->bpfprogram = NULL;	//reset the filter
 	Open->bModeCapt = 1;
 	Open->Nbytes.QuadPart = 0;
 	Open->Npackets.QuadPart = 0;
@@ -1809,7 +1870,7 @@ NPF_CreateFilterModule(
 	BOOLEAN bAllocFailed = FALSE;
 
 	// allocate some memory for the filter module structure
-	pFiltMod = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(NPCAP_FILTER_MODULE), NPF_FILTMOD_TAG);
+	pFiltMod = NPF_AllocateZeroNonpaged(sizeof(NPCAP_FILTER_MODULE), NPF_FILTMOD_TAG);
 
 	if (pFiltMod == NULL)
 	{
@@ -1817,8 +1878,6 @@ NPF_CreateFilterModule(
 		INFO_DBG("Failed to allocate memory pool\n");
 		return NULL;
 	}
-
-	RtlZeroMemory(pFiltMod, sizeof(NPCAP_FILTER_MODULE));
 
 	pFiltMod->AdapterHandle = NdisFilterHandle;
 	pFiltMod->AdapterBindingStatus = FilterDetached;
@@ -1831,6 +1890,7 @@ NPF_CreateFilterModule(
 
 	pFiltMod->FilterModulesEntry.Next = NULL;
 	pFiltMod->OpenInstances.Next = NULL;
+	InitializeListHead(&pFiltMod->BpfPrograms);
 
 	// Pool sizes based on observations on a single-core Hyper-V VM while
 	// running our test suite.
@@ -1841,6 +1901,14 @@ NPF_CreateFilterModule(
 		if (pFiltMod->OpenInstancesLock == NULL)
 		{
 			INFO_DBG("Failed to allocate OpenInstancesLock\n");
+			bAllocFailed = TRUE;
+			break;
+		}
+
+		pFiltMod->BpfProgramsLock = NdisAllocateRWLock(NdisFilterHandle);
+		if (pFiltMod->BpfProgramsLock == NULL)
+		{
+			INFO_DBG("Failed to allocate BpfProgramsLock\n");
 			bAllocFailed = TRUE;
 			break;
 		}
@@ -1862,6 +1930,17 @@ NPF_CreateFilterModule(
 			bAllocFailed = TRUE;
 			break;
 		}
+
+		pFiltMod->AdapterName.MaximumLength = AdapterName->MaximumLength - DEVICE_PATH_BYTES;
+		pFiltMod->AdapterName.Buffer = NPF_AllocateZeroNonpaged(pFiltMod->AdapterName.MaximumLength, NPF_UNICODE_BUFFER_TAG);
+		if (pFiltMod->AdapterName.Buffer == NULL)
+		{
+			INFO_DBG("Failed to allocate AdapterName buffer\n");
+			bAllocFailed = TRUE;
+			break;
+		}
+		pFiltMod->AdapterName.Length = 0;
+		RtlAppendUnicodeToString(&pFiltMod->AdapterName, AdapterName->Buffer + DEVICE_PATH_CCH);
 	} while (0);
 
 	if (bAllocFailed) {
@@ -1869,6 +1948,8 @@ NPF_CreateFilterModule(
 			NdisFreeNetBufferListPool(pFiltMod->PacketPool);
 		if (pFiltMod->OpenInstancesLock)
 			NdisFreeRWLock(pFiltMod->OpenInstancesLock);
+		if (pFiltMod->BpfProgramsLock)
+			NdisFreeRWLock(pFiltMod->BpfProgramsLock);
 		ExFreePool(pFiltMod);
 		return NULL;
 	}
@@ -1876,11 +1957,6 @@ NPF_CreateFilterModule(
 	// Default; expect this will be overwritten in NPF_Restart,
 	// or for Loopback when creating the fake module.
 	pFiltMod->MaxFrameSize = 1514;
-
-	pFiltMod->AdapterName.MaximumLength = AdapterName->MaximumLength - DEVICE_PATH_BYTES;
-	pFiltMod->AdapterName.Buffer = ExAllocatePoolWithTag(NPF_NONPAGED, pFiltMod->AdapterName.MaximumLength, NPF_UNICODE_BUFFER_TAG);
-	pFiltMod->AdapterName.Length = 0;
-	RtlAppendUnicodeToString(&pFiltMod->AdapterName, AdapterName->Buffer + DEVICE_PATH_CCH);
 
 	//
 	//allocate the spinlock for the OID requests
@@ -1945,35 +2021,76 @@ Return Value:
 
 //-------------------------------------------------------------------
 
+struct MediaParams {
+	BOOLEAN RawIP:1;
+	BOOLEAN EtherHeader:1;
+	BOOLEAN Dot11:1;
+	BOOLEAN PacketFilterGetOK:1;
+	BOOLEAN Fragile:1;
+	BOOLEAN SplitMdls:1;
+};
+
 static NDIS_STATUS NPF_ValidateParameters(
-	_Out_ PBOOLEAN pbDot11,
+	_Out_ struct MediaParams *pParams,
 	_In_ NDIS_MEDIUM MiniportMediaType,
+	_In_ NDIS_PHYSICAL_MEDIUM MiniportPhysicalMediaType,
 	_In_opt_ NDIS_HANDLE MiniportMediaSpecificAttributes
         )
 {
 	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	// Defaults
+	pParams->Fragile = 1;
+	pParams->RawIP = 0;
+	pParams->EtherHeader = 0;
+	pParams->PacketFilterGetOK = 1;
     // Verify the media type is supported.  This is a last resort; the
     // the filter should never have been bound to an unsupported miniport
     // to begin with.  If this driver is marked as a Mandatory filter (which
     // is the default for this sample; see the INF file), failing to attach
     // here will leave the network adapter in an unusable state.
     //
-	// The WiFi filter will only bind to the 802.11 wireless adapters that support NetworkMonitor mode.
-	*pbDot11 = (g_pDriverExtension->bDot11SupportMode && MiniportMediaType == NdisMediumNative802_11);
-#ifdef HAVE_DOT11_SUPPORT
-	if (*pbDot11 && MiniportMediaSpecificAttributes)
+	switch (MiniportMediaType)
 	{
-		PNDIS_MINIPORT_ADAPTER_NATIVE_802_11_ATTRIBUTES pDot11Attrs = MiniportMediaSpecificAttributes;
-		if (pDot11Attrs->Header.Type == NDIS_OBJECT_TYPE_MINIPORT_ADAPTER_NATIVE_802_11_ATTRIBUTES)
-		{
-			if (!(pDot11Attrs->OpModeCapability & DOT11_OPERATION_MODE_NETWORK_MONITOR))
+		case NdisMediumNative802_11:
+			// The WiFi filter will only bind to the 802.11
+			// wireless adapters that support NetworkMonitor mode.
+			pParams->Dot11 = g_pDriverExtension->bDot11SupportMode;
+			// NDIS always answers OID_GEN_CURRENT_PACKET_FILTER queries for
+			// Wifi adapters with NDIS_STATUS_INVALID_OID
+			pParams->PacketFilterGetOK = 0;
+			pParams->Fragile = 0;
+#ifdef HAVE_DOT11_SUPPORT
+			if (pParams->Dot11 && MiniportMediaSpecificAttributes)
 			{
-				INFO_DBG("Adapter does not support NetMon\n");
-				Status = NDIS_STATUS_INVALID_PARAMETER;
+				PNDIS_MINIPORT_ADAPTER_NATIVE_802_11_ATTRIBUTES pDot11Attrs = MiniportMediaSpecificAttributes;
+				if (pDot11Attrs->Header.Type == NDIS_OBJECT_TYPE_MINIPORT_ADAPTER_NATIVE_802_11_ATTRIBUTES
+						&& !(pDot11Attrs->OpModeCapability & DOT11_OPERATION_MODE_NETWORK_MONITOR))
+				{
+					INFO_DBG("Adapter does not support NetMon\n");
+					Status = NDIS_STATUS_INVALID_PARAMETER;
+				}
 			}
-		}
-	}
 #endif
+			break;
+		case NdisMedium802_3:
+			pParams->Fragile = 0;
+			pParams->EtherHeader = 1;
+			break;
+		case NdisMediumWan:
+			pParams->EtherHeader = 1;
+			pParams->Fragile = 1;
+			break;
+		case NdisMediumWirelessWan:
+		case NdisMediumIP:
+			pParams->RawIP = 1;
+		default:
+			pParams->Fragile = 1;
+			break;
+	}
+	if (MiniportPhysicalMediaType == NdisPhysicalMediumBluetooth)
+	{
+		pParams->SplitMdls = 1;
+	}
 	return Status;
 }
 
@@ -1986,12 +2103,13 @@ NPF_AttachAdapter(
 	)
 {
 	PNPCAP_FILTER_MODULE pFiltMod = NULL;
+	struct MediaParams params = {0};
 	LOCK_STATE_EX lockState;
 	NDIS_STATUS             Status;
 	NDIS_STATUS				returnStatus;
 	NDIS_FILTER_ATTRIBUTES	FilterAttributes;
+	SINGLE_LIST_ENTRY ReattachOpens = {NULL};
 	BOOLEAN					bFalse = FALSE;
-	BOOLEAN					bDot11 = FALSE;
 
 	TRACE_ENTER();
 
@@ -1999,10 +2117,10 @@ NPF_AttachAdapter(
 	{
 		// FilterModuleGuidName = "{ADAPTER_GUID}-{FILTER_GUID}-0000"
 
-		returnStatus = NPF_ValidateParameters(&bDot11, AttachParameters->MiniportMediaType, AttachParameters->MiniportMediaSpecificAttributes);
+		returnStatus = NPF_ValidateParameters(&params, AttachParameters->MiniportMediaType, AttachParameters->MiniportPhysicalMediaType, AttachParameters->MiniportMediaSpecificAttributes);
 		INFO_DBG("FilterModuleGuidName=%ws, bDot11=%u, MediaType=%d\n",
 			AttachParameters->FilterModuleGuidName->Buffer,
-			bDot11, AttachParameters->MiniportMediaType);
+			params.Dot11, AttachParameters->MiniportMediaType);
 
 		if (returnStatus != STATUS_SUCCESS)
 			break;
@@ -2038,27 +2156,12 @@ NPF_AttachAdapter(
 		}
 		pFiltMod->AdapterID = AttachParameters->BaseMiniportNetLuid;
 		pFiltMod->AdapterBindingStatus = FilterAttaching;
-		switch (AttachParameters->MiniportMediaType)
-		{
-			case NdisMedium802_3:
-			case NdisMediumNative802_11:
-				pFiltMod->Fragile = 0;
-				break;
-			default:
-				pFiltMod->Fragile = 1;
-				break;
-		}
-		switch (AttachParameters->MiniportPhysicalMediaType)
-		{
-			case NdisPhysicalMediumNative802_11:
-				// NDIS always answers OID_GEN_CURRENT_PACKET_FILTER queries for
-				// Wifi adapters with NDIS_STATUS_INVALID_OID
-				pFiltMod->PacketFilterGetOK = 0;
-				break;
-			default:
-				pFiltMod->PacketFilterGetOK = 1;
-				break;
-		}
+		pFiltMod->RawIP = params.RawIP;
+		pFiltMod->EtherHeader = params.EtherHeader;
+		pFiltMod->Dot11 = params.Dot11;
+		pFiltMod->PacketFilterGetOK = params.PacketFilterGetOK;
+		pFiltMod->Fragile = params.Fragile;
+		pFiltMod->SplitMdls = params.SplitMdls;
 
 #ifdef HAVE_RX_SUPPORT
 		// Determine whether this is our send-to-Rx adapter for the open_instance.
@@ -2091,8 +2194,6 @@ NPF_AttachAdapter(
 			break;
 		}
 
-		pFiltMod->Dot11 = g_pDriverExtension->bDot11SupportMode && bDot11;
-
 		INFO_DBG(
 			"Opened the device %ws, BindingContext=%p, dot11=%u",
 			pFiltMod->AdapterName.Buffer,
@@ -2118,15 +2219,35 @@ NPF_AttachAdapter(
 					       	&& pOpen->AdapterID.Value == pFiltMod->AdapterID.Value)
 				{
 					// add it to this filter module's list.
-					NPF_AddToGroupOpenArray(pOpen, pFiltMod, TRUE);
+					PushEntryList(&ReattachOpens, &pOpen->OpenInstancesEntry);
 				}
 			}
 			NdisReleaseRWLock(g_pDriverExtension->AllOpensLock, &lockState);
+			// For each of the discovered instances, start it up again
+			PSINGLE_LIST_ENTRY Curr = PopEntryList(&ReattachOpens);
+			while (Curr != NULL)
+			{
+				POPEN_INSTANCE pOpen = CONTAINING_RECORD(Curr, OPEN_INSTANCE, OpenInstancesEntry);
+				// NPF_AddToGroupOpenArray handles updating MyPacketFilter and MyLookaheadSize
+				NPF_AddToGroupOpenArray(pOpen, pFiltMod, 0);
+				if (pOpen->ReattachStatus < OpenAttached)
+				{
+					NPF_UpdateTimestampModeCounts(pFiltMod, pOpen->TimestampMode, TIMESTAMPMODE_UNSET);
+					NPF_RegisterBpf(pOpen->pFiltMod, &pOpen->BpfProgram);
+				}
+				pOpen->OpenStatus = pOpen->ReattachStatus;
+				Curr = PopEntryList(&ReattachOpens);
+			}
 		}
 
 		returnStatus = STATUS_SUCCESS;
 		pFiltMod->AdapterBindingStatus = FilterPaused;
 		NPF_AddToFilterModuleArray(pFiltMod);
+		// If any handles are running, enable ops again.
+		if (pFiltMod->nTimestampQPC > 0 || pFiltMod->nTimestampQST > 0 || pFiltMod->nTimestampQST_Precise > 0)
+		{
+			NPF_EnableOps(pFiltMod);
+		}
 	}
 	while (bFalse);
 
@@ -2203,7 +2324,7 @@ NPF_Restart(
 	ULONG ulTmp = 0;
 	PNDIS_RESTART_ATTRIBUTES Curr = RestartParameters->RestartAttributes;
 	PNDIS_RESTART_GENERAL_ATTRIBUTES GenAttr = NULL;
-	BOOLEAN bDot11 = FALSE;
+	struct MediaParams params = {0};
 
 	TRACE_ENTER();
 
@@ -2223,34 +2344,42 @@ NPF_Restart(
 	pFiltMod->AdapterBindingStatus = FilterRestarting;
 	NdisReleaseSpinLock(&pFiltMod->AdapterHandleLock);
 
-	Status = NPF_ValidateParameters(&bDot11, RestartParameters->MiniportMediaType, NULL);
-	NT_ASSERT(!bDot11 == !pFiltMod->Dot11);
+	Status = NPF_ValidateParameters(&params, RestartParameters->MiniportMediaType, RestartParameters->MiniportPhysicalMediaType, NULL);
 	if (Status != NDIS_STATUS_SUCCESS) {
 		goto NPF_Restart_End;
 	}
+	pFiltMod->RawIP = params.RawIP;
+	pFiltMod->EtherHeader = params.EtherHeader;
+	pFiltMod->Dot11 = params.Dot11;
+	pFiltMod->PacketFilterGetOK = params.PacketFilterGetOK;
+	pFiltMod->Fragile = params.Fragile;
 
 	while (Curr) {
 		INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES Oid = %#x\n", pFiltMod, Curr->Oid);
-		if (Curr->Oid == OID_GEN_MINIPORT_RESTART_ATTRIBUTES) {
-			GenAttr = (PNDIS_RESTART_GENERAL_ATTRIBUTES) Curr->Data;
-			// MtuSize is actually OID_GEN_MAXIMUM_FRAME_SIZE and does not include link header
-			// We'll grab it because it's available, but we'll try to get something better
-			pFiltMod->MaxFrameSize = GenAttr->MtuSize;
-			INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES MtuSize = %lu\n", pFiltMod, GenAttr->MtuSize);
-			pFiltMod->SupportedPacketFilters = GenAttr->SupportedPacketFilters;
+		switch (Curr->Oid) {
+			case OID_GEN_MINIPORT_RESTART_ATTRIBUTES:
+				GenAttr = (PNDIS_RESTART_GENERAL_ATTRIBUTES) Curr->Data;
+				// MtuSize is actually OID_GEN_MAXIMUM_FRAME_SIZE and does not include link header
+				// We'll grab it because it's available, but we'll try to get something better
+				pFiltMod->MaxFrameSize = GenAttr->MtuSize;
+				INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES MtuSize = %lu\n", pFiltMod, GenAttr->MtuSize);
+				pFiltMod->SupportedPacketFilters = GenAttr->SupportedPacketFilters;
 #ifdef HAVE_DOT11_SUPPORT
-			if (pFiltMod->Dot11)
-			{
-				// This is not reported in SupportedPacketFilters. Have to override it here.
-				pFiltMod->SupportedPacketFilters |= NPCAP_DOT11_RAW_PACKET_FILTER;
-			}
+				if (pFiltMod->Dot11)
+				{
+					// This is not reported in SupportedPacketFilters. Have to override it here.
+					pFiltMod->SupportedPacketFilters |= NPCAP_DOT11_RAW_PACKET_FILTER;
+				}
 #endif
-			INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES SupportedPacketFilters = %#x\n", pFiltMod, GenAttr->SupportedPacketFilters);
-			pFiltMod->HigherLookaheadSize = GenAttr->LookaheadSize;
-			INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES LookaheadSize = %lu\n", pFiltMod, GenAttr->LookaheadSize);
-#if !(DBG)
-			break;
-#endif
+				INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES SupportedPacketFilters = %#x\n", pFiltMod, GenAttr->SupportedPacketFilters);
+				pFiltMod->HigherLookaheadSize = GenAttr->LookaheadSize;
+				INFO_DBG("pFiltMod(%p) NDIS_RESTART_ATTRIBUTES LookaheadSize = %lu\n", pFiltMod, GenAttr->LookaheadSize);
+				break;
+			// These have not been seen before, but worth a shot to save an OID request later:
+			case OID_GEN_CURRENT_PACKET_FILTER:
+				pFiltMod->HigherPacketFilter = *(PULONG) Curr->Data;
+				pFiltMod->HigherPacketFilterSet = 1;
+				break;
 		}
 		Curr = Curr->Next;
 	}
@@ -2269,38 +2398,22 @@ NPF_Restart(
 	}
 
 	// Now that we have SupportedPacketFilters, we can set our own PacketFilter if necessary
-	if (pFiltMod->MyPacketFilter != 0)
+	ulTmp = pFiltMod->MyPacketFilter;
+	// Force NPF_SetPacketFilter to send the OID in case the filter was reset while we were detached.
+	pFiltMod->MyPacketFilter = 0;
+	ntStatus = NPF_SetPacketFilter(pFiltMod, ulTmp);
+	if (!NT_SUCCESS(ntStatus))
 	{
-		ulTmp = pFiltMod->MyPacketFilter;
-		// Force NPF_SetPacketFilter to send the OID in case the filter was reset while we were detached.
-		pFiltMod->MyPacketFilter = 0;
-		ntStatus = NPF_SetPacketFilter(pFiltMod, ulTmp);
-		if (!NT_SUCCESS(ntStatus))
-		{
-			WARNING_DBG("NPF_SetPacketFilter: error, Status=%x.\n", ntStatus);
-		}
-	}
-	else // If we haven't mucked with the packet filter, we need to get the original one in order to restore it.
-	{
-		ntStatus = NPF_GetPacketFilter(pFiltMod);
-		if (!NT_SUCCESS(ntStatus))
-		{
-			WARNING_DBG("NPF_GetPacketFilter: error, Status=%x.\n", ntStatus);
-		}
-		INFO_DBG("pFiltMod(%p)->HigherPacketFilter=%#lx\n", pFiltMod, pFiltMod->HigherPacketFilter);
+		WARNING_DBG("NPF_SetPacketFilter: error, Status=%x.\n", ntStatus);
 	}
 
 	// And we may have to set the lookahead size if this is a reattach
-	if (pFiltMod->MyLookaheadSize != 0)
+	ulTmp = pFiltMod->MyLookaheadSize;
+	pFiltMod->MyLookaheadSize = 0;
+	ntStatus = NPF_SetLookaheadSize(pFiltMod, ulTmp);
+	if (!NT_SUCCESS(ntStatus))
 	{
-		ulTmp = pFiltMod->MyLookaheadSize;
-		pFiltMod->MyLookaheadSize = 0;
-		// Force NPF_SetPacketFilter to send the OID in case the lookahead was reset while we were detached.
-		ntStatus = NPF_SetLookaheadSize(pFiltMod, ulTmp);
-		if (!NT_SUCCESS(ntStatus))
-		{
-			WARNING_DBG("NPF_SetLookaheadSize: error, Status=%x.\n", ntStatus);
-		}
+		WARNING_DBG("NPF_SetLookaheadSize: error, Status=%x.\n", ntStatus);
 	}
 
 
@@ -2344,7 +2457,6 @@ NOTE: Called at PASSIVE_LEVEL and the filter is in paused state
 	SINGLE_LIST_ENTRY DetachedOpens = {NULL};
 	POPEN_INSTANCE pOpen = NULL;
 	LOCK_STATE_EX lockState;
-	ULONG numOpensRunning = 0;
 
 	TRACE_ENTER();
 
@@ -2357,11 +2469,7 @@ NOTE: Called at PASSIVE_LEVEL and the filter is in paused state
 	{
 		pOpen = CONTAINING_RECORD(Curr, OPEN_INSTANCE, OpenInstancesEntry);
 		PushEntryList(&DetachedOpens, Curr);
-		OPEN_STATE OldState = NPF_DemoteOpenStatus(pOpen, OpenDetached);
-		if (OldState == OpenRunning)
-		{
-			numOpensRunning++;
-		}
+		pOpen->ReattachStatus = NPF_DemoteOpenStatus(pOpen, OpenDetached);
 
 		if (pOpen->ReadEvent != NULL)
 			KeSetEvent(pOpen->ReadEvent, 0, FALSE);
@@ -2369,6 +2477,7 @@ NOTE: Called at PASSIVE_LEVEL and the filter is in paused state
 		Curr = PopEntryList(&pFiltMod->OpenInstances);
 	}
 	NdisReleaseRWLock(pFiltMod->OpenInstancesLock, &lockState);
+	NT_ASSERT(pFiltMod->nTimestampQPC == 0 && pFiltMod->nTimestampQST == 0 && pFiltMod->nTimestampQST_Precise == 0);
 
 	// Restore original filter and lookahead value
 	NPF_SetPacketFilter(pFiltMod, 0);
@@ -2382,8 +2491,10 @@ NOTE: Called at PASSIVE_LEVEL and the filter is in paused state
 	{
 		pOpen = CONTAINING_RECORD(Curr, OPEN_INSTANCE, OpenInstancesEntry);
 		NPF_OpenWaitPendingIrps(pOpen);
+		NdisAcquireSpinLock(&pOpen->OpenInUseLock);
 		pOpen->pFiltMod = NULL;
 		pOpen->OpenInstancesEntry.Next = NULL;
+		NdisReleaseSpinLock(&pOpen->OpenInUseLock);
 		Curr = PopEntryList(&DetachedOpens);
 	}
 
@@ -2448,41 +2559,6 @@ NOTE: Called at <= DISPATCH_LEVEL  (unlike a miniport's MiniportOidRequest)
 	NT_ASSERT(!pFiltMod->Loopback);
 #endif
 
-	// Special case: if their OID doesn't change a value we already set
-	// then we don't pass it down but just return success.
-	if (!pFiltMod->Fragile && Request->RequestType == NdisRequestSetInformation)
-	{
-		pBuffer = Request->DATA.SET_INFORMATION.InformationBuffer;
-		switch (Request->DATA.SET_INFORMATION.Oid)
-		{
-			case OID_GEN_CURRENT_PACKET_FILTER:
-				if (*(PULONG) pBuffer & ~pFiltMod->SupportedPacketFilters)
-					WARNING_DBG("Upper driver setting unsupported packet filter: %#x\n", *(PULONG) pBuffer);
-
-				// If new combined filter is the same as existing
-				if ((*(PULONG) pBuffer | pFiltMod->MyPacketFilter) == (pFiltMod->HigherPacketFilter | pFiltMod->MyPacketFilter))
-				{
-					// Note the new value and return success
-					pFiltMod->HigherPacketFilter = *(PULONG) pBuffer;
-					Request->DATA.SET_INFORMATION.BytesRead = sizeof(ULONG);
-					return NDIS_STATUS_SUCCESS;
-				}
-				break;
-			case OID_GEN_CURRENT_LOOKAHEAD:
-				// If requested lookahead is less than or equal to ours
-				if (*(PULONG) pBuffer <= pFiltMod->MyLookaheadSize)
-				{
-					// Note the new value and return success
-					pFiltMod->HigherLookaheadSize = *(PULONG) pBuffer;
-					Request->DATA.SET_INFORMATION.BytesRead = sizeof(ULONG);
-					return NDIS_STATUS_SUCCESS;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	do
 	{
 		Status = NdisAllocateCloneOidRequest(pFiltMod->AdapterHandle,
@@ -2501,7 +2577,7 @@ NOTE: Called at <= DISPATCH_LEVEL  (unlike a miniport's MiniportOidRequest)
 		{
 			// ExAllocatePoolWithTag is permitted to be used at DISPATCH_LEVEL iff allocating from NPF_NONPAGED
 #pragma warning(suppress: 28118)
-			pBuffer = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(ULONG), NPF_CLONE_OID_TAG);
+			pBuffer = NPF_AllocateZeroNonpaged(sizeof(ULONG), NPF_CLONE_OID_TAG);
 			if (pBuffer == NULL)
 			{
 				INFO_DBG("Allocate pBuffer failed, cannot modify OID value.\n");
@@ -2514,8 +2590,11 @@ NOTE: Called at <= DISPATCH_LEVEL  (unlike a miniport's MiniportOidRequest)
 					case OID_GEN_CURRENT_PACKET_FILTER:
 						pFiltMod->HigherPacketFilter = *(ULONG *) Request->DATA.SET_INFORMATION.InformationBuffer;
 						pFiltMod->HigherPacketFilterSet = 1;
-						if (*(PULONG) pBuffer & ~pFiltMod->SupportedPacketFilters)
+#if DBG
+						if (pFiltMod->AdapterBindingStatus == FilterRunning
+								&& *(PULONG) pBuffer & ~pFiltMod->SupportedPacketFilters)
 							WARNING_DBG("Upper driver setting unsupported packet filter: %#x\n", *(PULONG) pBuffer);
+#endif
 						*(PULONG) pBuffer = pFiltMod->HigherPacketFilter | pFiltMod->MyPacketFilter;
 						break;
 					case OID_GEN_CURRENT_LOOKAHEAD:
@@ -2799,14 +2878,21 @@ NOTE: called at <= DISPATCH_LEVEL
 
 	INFO_DBG("status %x\n", StatusIndication->StatusCode);
 
-	//
-	// The filter may do processing on the status indication here, including
-	// intercepting and dropping it entirely.  However, the sample does nothing
-	// with status indications except pass them up to the higher layer.  It is
-	// more efficient to omit the FilterStatus handler entirely if it does
-	// nothing, but it is included in this sample for illustrative purposes.
-	//
-	NdisFIndicateStatus(pFiltMod->AdapterHandle, StatusIndication);
+	// We can use this if we haven't mucked with it yet.
+	if (StatusIndication->StatusCode == NDIS_STATUS_PACKET_FILTER
+			&& pFiltMod->MyPacketFilter != 0
+			&& !pFiltMod->HigherPacketFilterSet)
+	{
+		NT_ASSERT(StatusIndication->StatusBufferSize >= sizeof(ULONG));
+		pFiltMod->HigherPacketFilter = *(PULONG)StatusIndication->StatusBuffer;
+		pFiltMod->HigherPacketFilterSet = 1;
+	}
+
+	// If it's ours, drop it here. Otherwise, pass it on.
+	if (StatusIndication->SourceHandle != pFiltMod->AdapterHandle)
+	{
+		NdisFIndicateStatus(pFiltMod->AdapterHandle, StatusIndication);
+	}
 
 /*	TRACE_EXIT();*/
 }
@@ -3118,7 +3204,7 @@ NPF_SetPacketFilter(
 		return NDIS_STATUS_SUCCESS;
 	}
 
-	pBuffer = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(PacketFilter), NPF_INTERNAL_OID_TAG);
+	pBuffer = NPF_AllocateZeroNonpaged(sizeof(PacketFilter), NPF_INTERNAL_OID_TAG);
 	if (pBuffer == NULL)
 	{
 		INFO_DBG("Allocate pBuffer failed\n");
@@ -3139,14 +3225,11 @@ NPF_SetPacketFilter(
 		0,
 		&BytesProcessed
 	);
+	// Some drivers do not set BytesRead for Set requests
+	UNREFERENCED_PARAMETER(BytesProcessed);
 
 	ExFreePoolWithTag(pBuffer, NPF_INTERNAL_OID_TAG);
 
-	if (BytesProcessed != sizeof(PacketFilter))
-	{
-		INFO_DBG("BytesProcessed != sizeof(PacketFilter), BytesProcessed = %#lx, sizeof(PacketFilter) = %#zx\n", BytesProcessed, sizeof(PacketFilter));
-		Status = NDIS_STATUS_FAILURE;
-	}
 	TRACE_EXIT();
 	return Status;
 }
@@ -3187,7 +3270,7 @@ NPF_SetLookaheadSize(
 	}
 	// Otherwise, we have to update the stack with our new max value.
 
-	pBuffer = ExAllocatePoolWithTag(NPF_NONPAGED, sizeof(ULONG), NPF_INTERNAL_OID_TAG);
+	pBuffer = NPF_AllocateZeroNonpaged(sizeof(ULONG), NPF_INTERNAL_OID_TAG);
 	if (pBuffer == NULL)
 	{
 		INFO_DBG("Allocate pBuffer failed\n");
@@ -3209,11 +3292,8 @@ NPF_SetLookaheadSize(
 
 	ExFreePoolWithTag(pBuffer, NPF_INTERNAL_OID_TAG);
 
-	if (Status != STATUS_SUCCESS || BytesProcessed != sizeof(ULONG))
-	{
-		INFO_DBG("NPF_DoInternalRequest error %#x, BytesProcessed = %#lx, sizeof(ULONG) = %#zx\n", Status, BytesProcessed, sizeof(ULONG));
-		Status = NDIS_STATUS_FAILURE;
-	}
+	// Some drivers do not set BytesRead for Set requests
+	UNREFERENCED_PARAMETER(BytesProcessed);
 	TRACE_EXIT();
 	return Status;
 }
@@ -3324,7 +3404,7 @@ NDIS_STATUS NPF_DoInternalRequest(
 				break;
 			default:
 				NT_ASSERT(RequestType && FALSE);
-				Status = NDIS_STATUS_FAILURE;
+				Status = NDIS_STATUS_INVALID_PARAMETER;
 				goto InternalRequestExit;
 				break;
 		}
@@ -3341,7 +3421,57 @@ InternalRequestExit:
 	{
 		ExFreeToLookasideListEx(&g_pDriverExtension->InternalRequestPool, pInternalRequest);
 	}
-	INFO_DBG("pFiltMod(%p) OID %s %#x: Status = %#x\n", pFiltMod, RequestType == NdisRequestQueryInformation ? "GET" : "SET", Oid, Status);
+	INFO_DBG("pFiltMod(%p) OID %s %#x: Status = %#x; Bytes = %lu\n", pFiltMod, RequestType == NdisRequestQueryInformation ? "GET" : "SET", Oid, Status, *pBytesProcessed);
 	TRACE_EXIT();
 	return Status;
+}
+
+_Use_decl_annotations_
+VOID NPF_UpdateTimestampModeCounts(
+		PNPCAP_FILTER_MODULE pFiltMod,
+		ULONG newmode,
+		ULONG oldmode)
+{
+	LONG result = 0;
+	if (pFiltMod == NULL || newmode == oldmode)
+		return;
+
+	switch (newmode)
+	{
+		case TIMESTAMPMODE_UNSET:
+			result = 1;
+			break;
+		case TIMESTAMPMODE_SINGLE_SYNCHRONIZATION:
+			result = InterlockedIncrement(&pFiltMod->nTimestampQPC);
+			break;
+		case TIMESTAMPMODE_QUERYSYSTEMTIME:
+			result = InterlockedIncrement(&pFiltMod->nTimestampQST);
+			break;
+		case TIMESTAMPMODE_QUERYSYSTEMTIME_PRECISE:
+			result = InterlockedIncrement(&pFiltMod->nTimestampQST_Precise);
+			break;
+		default:
+			NT_ASSERT(FALSE);
+			break;
+	}
+	NT_ASSERT(result > 0);
+	switch (oldmode)
+	{
+		case TIMESTAMPMODE_UNSET:
+			result = 0;
+			break;
+		case TIMESTAMPMODE_SINGLE_SYNCHRONIZATION:
+			result = InterlockedDecrement(&pFiltMod->nTimestampQPC);
+			break;
+		case TIMESTAMPMODE_QUERYSYSTEMTIME:
+			result = InterlockedDecrement(&pFiltMod->nTimestampQST);
+			break;
+		case TIMESTAMPMODE_QUERYSYSTEMTIME_PRECISE:
+			result = InterlockedDecrement(&pFiltMod->nTimestampQST_Precise);
+			break;
+		default:
+			NT_ASSERT(FALSE);
+			break;
+	}
+	NT_ASSERT(result >= 0);
 }

@@ -1,74 +1,71 @@
 /***********************IMPORTANT NPCAP LICENSE TERMS***********************
  *
- * Npcap (https://npcap.com) is a Windows packet sniffing driver and library
- * and is copyright (c) 2013-2022 by Nmap Software LLC ("The Nmap Project").
- * All rights reserved.
+ * Npcap (https://npcap.com) is a Windows packet sniffing driver and library and
+ * is copyright (c) 2013-2023 by Nmap Software LLC ("The Nmap Project").  All
+ * rights reserved.
  *
- * Even though Npcap source code is publicly available for review, it
- * is not open source software and may not be redistributed or used in
- * other software without special permission from the Nmap
- * Project. The standard (free) version is usually limited to
- * installation on five systems. For more details, see the LICENSE
- * file included with Npcap and also avaialble at
+ * Even though Npcap source code is publicly available for review, it is not
+ * open source software and may not be redistributed or used in other software
+ * without special permission from the Nmap Project. The standard (free) version
+ * is usually limited to installation on five systems. For more details, see the
+ * LICENSE file included with Npcap and also available at
  * https://github.com/nmap/npcap/blob/master/LICENSE. This header file
- * summarizes a few important aspects of the Npcap license, but is not
- * a substitute for that full Npcap license agreement.
+ * summarizes a few important aspects of the Npcap license, but is not a
+ * substitute for that full Npcap license agreement.
  *
  * We fund the Npcap project by selling two types of commercial licenses to a
  * special Npcap OEM edition:
  *
- * 1) The Npcap OEM Redistribution License allows companies distribute Npcap
- * OEM within their products. Licensees generally use the Npcap OEM silent
- * installer, ensuring a seamless experience for end users. Licensees may
- * choose between a perpetual unlimited license or a quarterly term license,
- * along with options for commercial support and updates. Prices and details:
+ * 1) The Npcap OEM Redistribution License allows companies distribute Npcap OEM
+ * within their products. Licensees generally use the Npcap OEM silent
+ * installer, ensuring a seamless experience for end users. Licensees may choose
+ * between a perpetual unlimited license or a quarterly term license, along with
+ * options for commercial support and updates. Prices and details:
  * https://npcap.com/oem/redist.html
  *
- * 2) The Npcap OEM Internal-Use License is for organizations that wish to
- * use Npcap OEM internally, without redistribution outside their
- * organization. This allows them to bypass the 5-system usage cap of the
- * Npcap free edition. It includes commercial support and update options, and
- * provides the extra Npcap OEM features such as the silent installer for
- * automated deployment. Prices and details:
- * https://npcap.com/oem/internal.html
+ * 2) The Npcap OEM Internal-Use License is for organizations that wish to use
+ * Npcap OEM internally, without redistribution outside their organization. This
+ * allows them to bypass the 5-system usage cap of the Npcap free edition. It
+ * includes commercial support and update options, and provides the extra Npcap
+ * OEM features such as the silent installer for automated deployment. Prices
+ * and details: https://npcap.com/oem/internal.html
  *
- * Both of these licenses include updates and support as well as a
- * warranty. Npcap OEM also includes a silent installer for unattended
- * installation. Further details about Npcap OEM are available from
- * https://npcap.com/oem/, and you are also welcome to contact us at
- * sales@nmap.com to ask any questions or set up a license for your
- * organization.
+ * Both of these licenses include updates and support as well as a warranty.
+ * Npcap OEM also includes a silent installer for unattended installation.
+ * Further details about Npcap OEM are available from https://npcap.com/oem/,
+ * and you are also welcome to contact us at sales@nmap.com to ask any questions
+ * or set up a license for your organization.
  *
  * Free and open source software producers are also welcome to contact us for
  * redistribution requests. However, we normally recommend that such authors
- * instead ask your users to download and install Npcap themselves. It will
- * be free for them if they need 5 or fewer copies.
+ * instead ask your users to download and install Npcap themselves. It will be
+ * free for them if they need 5 or fewer copies.
  *
- * If the Nmap Project (directly or through one of our commercial
- * licensing customers) has granted you additional rights to Npcap or
- * Npcap OEM, those additional rights take precedence where they
- * conflict with the terms of the license agreement.
+ * If the Nmap Project (directly or through one of our commercial licensing
+ * customers) has granted you additional rights to Npcap or Npcap OEM, those
+ * additional rights take precedence where they conflict with the terms of the
+ * license agreement.
  *
  * Since the Npcap source code is available for download and review, users
- * sometimes contribute code patches to fix bugs or add new features.  By
- * sending these changes to the Nmap Project (including through direct email
- * or our mailing lists or submitting pull requests through our source code
+ * sometimes contribute code patches to fix bugs or add new features. By sending
+ * these changes to the Nmap Project (including through direct email or our
+ * mailing lists or submitting pull requests through our source code
  * repository), it is understood unless you specify otherwise that you are
  * offering the Nmap Project the unlimited, non-exclusive right to reuse,
  * modify, and relicense your code contribution so that we may (but are not
- * obligated to) incorporate it into Npcap.  If you wish to specify special
+ * obligated to) incorporate it into Npcap. If you wish to specify special
  * license conditions or restrictions on your contributions, just say so when
  * you send them.
  *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. Warranty rights and commercial
- * support are available for the OEM Edition described above.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. Warranty rights and commercial support are
+ * available for the OEM Edition described above.
  *
- * Other copyright notices and attribution may appear below this license
- * header. We have kept those for attribution purposes, but any license terms
- * granted by those notices apply only to their original work, and not to any
- * changes made by the Nmap Project or to this entire file.
+ * Other copyright notices and attribution may appear below this license header.
+ * We have kept those for attribution purposes, but any license terms granted by
+ * those notices apply only to their original work, and not to any changes made
+ * by the Nmap Project or to this entire file.
  *
  ***************************************************************************/
 /*
@@ -297,7 +294,6 @@ typedef struct _NPCAP_DRIVER_EXTENSION
 	LIST_ENTRY AllOpens;
 	PNDIS_RW_LOCK_EX AllOpensLock;
 
-	LOOKASIDE_LIST_EX BufferPool; // Pool of BUFCHAIN_ELEM to hold capture data temporarily.
 	LOOKASIDE_LIST_EX NBLCopyPool; // Pool of NPF_NBL_COPY, NPF_NB_COPIES, NPF_SRC_NB objects
 	LOOKASIDE_LIST_EX NBCopiesPool; // Pool of NPF_NB_COPIES objects
 	LOOKASIDE_LIST_EX SrcNBPool; // Pool of NPF_SRC_NB objects
@@ -306,15 +302,14 @@ typedef struct _NPCAP_DRIVER_EXTENSION
 #ifdef HAVE_DOT11_SUPPORT
 	LOOKASIDE_LIST_EX Dot11HeaderPool; // Pool of Radiotap header buffers
 #endif
-	UCHAR bBufferPoolInit:1;
-	UCHAR bNBLCopyPoolInit:1;
-	UCHAR bNBCopiesPoolInit:1;
-	UCHAR bSrcNBPoolInit:1;
-	UCHAR bInternalRequestPoolInit:1;
-	UCHAR bCapturePoolInit:1;
-	UCHAR bDot11HeaderPoolInit:1;
+	BOOLEAN bNBLCopyPoolInit:1;
+	BOOLEAN bNBCopiesPoolInit:1;
+	BOOLEAN bSrcNBPoolInit:1;
+	BOOLEAN bInternalRequestPoolInit:1;
+	BOOLEAN bCapturePoolInit:1;
+	BOOLEAN bDot11HeaderPoolInit:1;
 	// WFP context
-	UCHAR bWFPInit:1;
+	BOOLEAN bWFPInit:1;
 	KMUTEX WFPInitMutex;
 	PNPCAP_FILTER_MODULE pLoopbackFilter;
 #define NPF_INJECT_OTHER -1
@@ -329,7 +324,6 @@ typedef struct _NPCAP_DRIVER_EXTENSION
 	BOOLEAN bAdminOnlyMode:1;
 	BOOLEAN bDltNullMode:1;
 	BOOLEAN bDot11SupportMode:1;
-	BOOLEAN bVlanSupportMode:1;
 	BOOLEAN bTestMode:1;
 
 	ULONG TimestampMode;
@@ -384,19 +378,27 @@ typedef struct _NPCAP_FILTER_MODULE
 	// Ordinary traversal can use faster and concurrent read-lock.
 	SINGLE_LIST_ENTRY OpenInstances; //GroupHead
 	PNDIS_RW_LOCK_EX OpenInstancesLock; // Also protects MyPacketFilter and MyLookaheadSize
+	LIST_ENTRY BpfPrograms;
+	PNDIS_RW_LOCK_EX BpfProgramsLock;
 
 	NDIS_STRING				AdapterName;
 	NET_LUID AdapterID;
 
 	/* Config booleans as a bitfield */
-	UINT Loopback:1;
-	UINT RawIP:1; // does this miniport require us to sniff the IP version of each packet?
-	UINT SendToRxPath:1;
-	UINT BlockRxPath:1;
-	UINT Dot11:1;
-	UINT PacketFilterGetOK:1; // Can we issue OID_GEN_CURRENT_PACKET_FILTER queries?
-	UINT HigherPacketFilterSet:1; // Have we correctly set HigherPacketFilter yet?
-	UINT Fragile:1; // Avoid OID set operations on these adapters
+	BOOLEAN Loopback:1;
+	BOOLEAN RawIP:1; // does this miniport require us to sniff the IP version of each packet?
+	BOOLEAN EtherHeader:1; // Does this adapter use Ethernet headers?
+	BOOLEAN SplitMdls:1; // Do we need to split the L2 header into a separate MDL?
+	BOOLEAN SendToRxPath:1;
+	BOOLEAN BlockRxPath:1;
+	BOOLEAN Dot11:1;
+	BOOLEAN PacketFilterGetOK:1; // Can we issue OID_GEN_CURRENT_PACKET_FILTER queries?
+	BOOLEAN HigherPacketFilterSet:1; // Have we correctly set HigherPacketFilter yet?
+	BOOLEAN Fragile:1; // Avoid OID set operations on these adapters
+
+	LONG nTimestampQPC; // Opens wanting TIMESTAMPMODE_SINGLE_SYNCHRONIZATION
+	LONG nTimestampQST; // Opens wanting TIMESTAMPMODE_QUERYSYSTEMTIME
+	LONG nTimestampQST_Precise; // Opens wanting TIMESTAMPMODE_QUERYSYSTEMTIME_PRECISE
 
 	ULONG SupportedPacketFilters;
 	ULONG					MyPacketFilter;
@@ -422,6 +424,14 @@ typedef struct _NPCAP_FILTER_MODULE
 } 
 NPCAP_FILTER_MODULE, *PNPCAP_FILTER_MODULE;
 
+typedef struct _OPEN_INSTANCE* POPEN_INSTANCE;
+typedef struct _NPCAP_BPF_PROGRAM
+{
+	LIST_ENTRY BpfProgramsEntry;
+	struct bpf_insn *bpf_program;
+}
+NPCAP_BPF_PROGRAM, *PNPCAP_BPF_PROGRAM;
+
 /* Open instance
  * Represents an open device handle by a process
  */
@@ -436,11 +446,7 @@ typedef struct _OPEN_INSTANCE
 	ULONG					MyPacketFilter;
 	ULONG					MyLookaheadSize;
 	PKEVENT					ReadEvent;		///< Pointer to the event on which the read calls on this instance must wait.
-	PUCHAR					bpfprogram;		///< Pointer to the filtering pseudo-code associated with current instance of the driver.
-											///< This code is used only in particular situations (for example when the packet received
-											///< from the NIC driver is stored in two non-consecutive buffers. In normal situations
-											///< the filtering routine created by the JIT compiler and pointed by the next field
-											///< is used. See \ref NPF for details on the filtering process.
+	NPCAP_BPF_PROGRAM BpfProgram; ///< Contains a pointer to the filtering pseudo-code associated with current handle.
 	UINT					MinToCopy;		///< Minimum amount of data in the circular buffer that unlocks a read. Set with the
 											///< BIOCSMINTOCOPY IOCTL.
 	LARGE_INTEGER			Nbytes;			///< Amount of bytes accepted by the filter when this instance is in statistical mode.
@@ -451,15 +457,13 @@ typedef struct _OPEN_INSTANCE
 
 	/* Config booleans as a bitfield */
 	// working modes, see PacketSetMode():
-	UINT bModeCapt:1; // MODE_CAPT (1) vs MODE_STAT (0)
-	// UINT bModeMon:1; // MODE_MON not supported
+	BOOLEAN bModeCapt:1; // MODE_CAPT (1) vs MODE_STAT (0)
+	// BOOLEAN bModeMon:1; // MODE_MON not supported
 	// Loopback Behavior:
-	UINT SkipSentPackets:1; ///< True if this instance should not capture back the packets that it transmits.
+	BOOLEAN SkipSentPackets:1; ///< True if this instance should not capture back the packets that it transmits.
 	// Info used to match a FilterModule when reattaching:
-	UINT bDot11:1; // pFiltMod->Dot11
-	UINT bLoopback:1; // pFiltMod->Loopback
-
-	PNDIS_RW_LOCK_EX MachineLock; ///< Lock that protects the BPF filter while in use.
+	BOOLEAN bDot11:1; // pFiltMod->Dot11
+	BOOLEAN bLoopback:1; // pFiltMod->Loopback
 
 	/* Buffer */
 	PNDIS_RW_LOCK_EX BufferLock; // Lock for modifying the buffer size/configuration
@@ -482,6 +486,7 @@ typedef struct _OPEN_INSTANCE
 	ULONG PendingIrps[OpenClosed]; //Counters for pending IRPs at each state. No IRPs are accepted at OpenClosed and greater.
 
 	OPEN_STATE OpenStatus;
+	OPEN_STATE ReattachStatus;
 	NDIS_SPIN_LOCK			OpenInUseLock;
 	ULONG TimestampMode;
 	struct timeval start; // Time synchronization of QPC with last boot
@@ -489,51 +494,33 @@ typedef struct _OPEN_INSTANCE
 }
 OPEN_INSTANCE, *POPEN_INSTANCE;
 
-/* This value should be sized to hold most packets processed by the driver. If
- * a packet (snaplen) exceeds this size, it will cost an additional BUFCHAIN_ELEM
- * allocation/free. On the other hand, every captured packet will use up at
- * least this much space in memory, so keep it small. Nmap uses 256 snaplen, so
- * we'll try that.
- */
-#define NPF_BUFCHAIN_SIZE 256
-
 typedef struct _NPF_NBL_COPY
 {
 	SINGLE_LIST_ENTRY NBCopiesHead;
 	SINGLE_LIST_ENTRY NBLCopyEntry;
-	struct timeval tstamp;
+	LARGE_INTEGER PerfCount;
+	LARGE_INTEGER SystemTime;
 #ifdef HAVE_DOT11_SUPPORT
 	PUCHAR Dot11RadiotapHeader;
 #endif
-	ULONG refcount;
+	LONG refcount;
 } NPF_NBL_COPY, *PNPF_NBL_COPY;
 
-/* Fixed-size buffers for holding packet data. Fixed size makes math easier and
- * lets us use lookaside lists */
-typedef struct _BUFCHAIN_ELEM *PBUFCHAIN_ELEM;
-typedef struct _BUFCHAIN_ELEM
-{
-	PBUFCHAIN_ELEM Next;
-	UCHAR Buffer [NPF_BUFCHAIN_SIZE];
-} BUFCHAIN_ELEM;
-
-/* This is like a lower-overhead version of NET_BUFFER based on BUFCHAIN_ELEM instead of MDL */
 typedef struct _NPF_NB_COPIES
 {
 	PNPF_NBL_COPY pNBLCopy;
-	ULONG ulSize; //Size of all used space in the bufchain.
+	ULONG ulSize; // Size of data in Buffer
 	ULONG ulPacketSize; // Size of the original packet
-	ULONG refcount;
-	BUFCHAIN_ELEM FirstElem; // Bufchain of packet data
+	LONG refcount;
+	PUCHAR Buffer; // packet data
 } NPF_NB_COPIES, *PNPF_NB_COPIES;
 
 typedef struct _NPF_SRC_NB
 {
 	SINGLE_LIST_ENTRY CopiesEntry;
 	PNPF_NB_COPIES pNBCopy;
-	PBUFCHAIN_ELEM pLastElem; // Last elem in the chain
-	PMDL pSrcCurrMdl; // MDL where we left off copying from the source NET_BUFFER
-	ULONG ulCurrMdlOffset; // Position in that MDL.
+	PNET_BUFFER pNetBuffer; // source NET_BUFFER
+	ULONG ulDesired; // How much data we want from the packet
 } NPF_SRC_NB, *PNPF_SRC_NB;
 
 // so we can use the same lookaside list for all these things
@@ -547,7 +534,16 @@ typedef union _NPF_NB_STORAGE
 /* Structure of a captured packet data description */
 typedef struct _NPF_CAP_DATA
 {
-	LIST_ENTRY PacketQueueEntry;
+	union {
+		// When in the packet queue:
+		LIST_ENTRY PacketQueueEntry;
+		// When DoTap is waiting to dispatch this to an instance:
+		struct {
+			struct _NPF_CAP_DATA *Next;
+			POPEN_INSTANCE pOpen;
+			PNPF_SRC_NB pSrcNB;
+		};
+	};
 	PNPF_NB_COPIES pNBCopy;
 	ULONG ulCaplen;
 }
@@ -626,7 +622,8 @@ NPF_BUFFERED_WRITE_STATE, *PNPF_BUFFERED_WRITE_STATE;
 typedef __declspec(align(MEMORY_ALLOCATION_ALIGNMENT)) struct _PACKET_RESERVED
 {
 	PIRP pIrp;
-	BOOLEAN		FreeBufAfterWrite;	///< True if the memory buffer associated with the packet must be freed.
+	BOOLEAN FreeBufAfterWrite; // True if the memory buffer associated with the packet must be freed.
+	BOOLEAN FreeMdlAfterWrite; // True if the MDL chain must be freed (always true if FreeBufAfterWrite is true)
 	PNPF_BUFFERED_WRITE_STATE pState;
 }  PACKET_RESERVED, *PPACKET_RESERVED;
 
@@ -674,7 +671,7 @@ NPF_DoInternalRequest(
 	_When_(RequestType == NdisRequestMethod, _Inout_updates_bytes_to_(InformationBufferLength, *pBytesProcessed))
 	PVOID								InformationBuffer,
 	_In_ ULONG							InformationBufferLength,
-	_In_opt_ ULONG						OutputBufferLength,
+	_In_ ULONG							OutputBufferLength,
 	_In_ ULONG							MethodId,
 	_Out_ PULONG						pBytesProcessed
 	);
@@ -1274,6 +1271,11 @@ USHORT NPF_LookUpDataRateMappingTable(
 	       );
 #endif
 
+VOID NPF_UpdateTimestampModeCounts(
+		_Inout_opt_ PNPCAP_FILTER_MODULE pFiltMod,
+		_In_ ULONG newmode,
+		_In_ ULONG oldmode
+		);
 /**
  *  @}
  */
